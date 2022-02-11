@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/Kalle-Rei/sti-frontend.git"
   },
+  "keywords": [
+    "frontend"
+  ],
   "author": "Karl Reithmeier",
   "license": "ISC",
   "bugs": {
