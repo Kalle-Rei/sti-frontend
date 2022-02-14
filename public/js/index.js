@@ -6,8 +6,8 @@ function age(){
     setTimeout(age, 3000)
 }
 
-var anElement = document.getElementById("app")
-var anotherElement = document.createElement("strong")
+var anElement = document.createElement("strong")
 anElement.innerHTML = "Hello World"
-anElement.outerHTML = "Hello World"
-anotherElement.innerHTML = "Hello World"
+
+var app = document.getElementById("app")
+app.appendChild(anElement)
