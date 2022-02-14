@@ -19,11 +19,9 @@
 //     ettElement.outerHTML = "<strong>Kalle</strong>"
 // }
 
-var tableTest = document.getElementById("tableTest")
+var tableTest = document.getElementById("myTable")
+tableTest.innerHTML = "<button onclick='insertTableRow()'>tableTest</button>"
 
-tableTest.innerHTML = "<button onclick='addTableRow()'>Add row</button>"
-
-function addTableRow(){
-    tableTest.outerHTML = "<tr></tr>"
-
+function insertTableRow(){
+    tableTest.insertRow(0)
 }
