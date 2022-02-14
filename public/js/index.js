@@ -6,15 +6,24 @@
 //     setTimeout(age, 3000)
 // }
 
-var anElement = document.createElement("strong")
-anElement.innerHTML = "Hello World"
+// var anElement = document.createElement("strong")
+// anElement.innerHTML = "Hello World"
 
-var app = document.getElementById("app")
-app.appendChild(anElement)
+// var app = document.getElementById("app")
+// app.appendChild(anElement)
 
-var ettElement = document.getElementById("app")
-ettElement.innerHTML = "<button onclick='buttonClick()'>Click me</button>"
+// var ettElement = document.getElementById("app")
+// ettElement.innerHTML = "<button onclick='buttonClick()'>Click me</button>"
 
-function buttonClick(){
-    ettElement.outerHTML = "<strong>Kalle</strong>"
+// function buttonClick(){
+//     ettElement.outerHTML = "<strong>Kalle</strong>"
+// }
+
+var tableTest = document.getElementById("tableTest")
+
+tableTest.innerHTML = "<button onclick='addTableRow()'>Add row</button>"
+
+function addTableRow(){
+    tableTest.outerHTML = "<tr></tr>"
+
 }
