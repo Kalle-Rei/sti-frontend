@@ -25,11 +25,16 @@ tableTest.innerHTML = "<button onclick='insertTableRow()'>Add row</button>"
 tableTest2.innerHTML = "<button onclick='deleteTableRow()'>Delete row</button>"
 
 function insertTableRow(){
-    tableTest.insertRow(0)
+    var table = document.getElementById("myTable")
+    var row = table.insertRow(0)
+    var cell1 = row.insertCell(0)
+    var cell2 = row.insertCell(1)
+    cell1.innerHTML = "NEW CELL1"
+    cell2.innerHTML = "NEW CELL2"
 }
 
 function deleteTableRow(){
-    tableTest2.deleteRow(0)
+    document.getElementById("myTable").deleteRow(0)
 }
 
 function makeTable(){
