@@ -7,5 +7,7 @@ function age(){
 }
 
 var anElement = document.getElementById("app")
+var anotherElement = document.createElement("strong")
 anElement.innerHTML = "Hello World"
 anElement.outerHTML = "Hello World"
+anotherElement.innerHTML = "Hello World"
