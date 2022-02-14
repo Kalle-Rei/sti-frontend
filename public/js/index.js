@@ -1,4 +1,5 @@
-function insertTableRow(){
+//index.js
+function createTableRow(){
     var table = document.getElementById("myTable")
     var row = table.insertRow(0)
     var cell = row.insertCell(0)
