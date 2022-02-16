@@ -1,16 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/index.css">
-        <title>Kalles sudoku</title>
-    </head>
-    <body>
-        <h1>Sudoku</h1>
-        
-        
-        <script src="js/index.js"></script>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Kalles sudoku</title>
+</head>
+
+<body class="flex-row">
+
+    <div id="mainContainer">
+        <div id="headerControls" class="flex-row">
+            <span id="headerMenu"><img src="/images/3dots.svg" id="dotMenuSpan"></span>
+            <span id="headerHeader">SUDOKU</span>
+            <span id="headerSubmit"><span>Submit</span></span>
+        </div>
+        <div id="dotMenu">
+            <div id="back" class="flex-row" style="justify-content: space-evenly;"><img src="/images/home.svg">Home
+            </div>
+            <div id="newGame">New Game</div>
+            <div id="clear">Clear All</div>
+            <div id="solver"><span id="text"></span>
+                <div id="solverMenu">
+                    <div id="solverStart">Start</div>
+                    <div id="solverWatch">
+                        <input type="checkbox" id="solverWatchCbox" name="solverWatchCbox" value="watch" checked>
+                        <label for="solverWatchCbox">Watch</label>
+                    </div>
+                    <div id="solverSpeed">
+                        <label for="speedRange">Speed</label>
+                        <input type="range" name="speedRange" id="speedRange" max="250" min="50" value="100">
+                    </div>
+                    <div id="solverStop">Stop</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Board -->
+        <div id="board">
+
+        </div>
+        <div id="keypad" class="flex-row">
+
+        </div>
+
+    </div>
+
+    <!-- <script src="js/index.js"></script> -->
+</body>
+
 </html>
