@@ -88,3 +88,5 @@ function createCell(content){
     aCell.innerHTML = content;
     return aCell;
 }
+
+age();
