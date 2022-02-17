@@ -1,7 +1,7 @@
 //app.js
 const express = require("express")
-var favicon = require('serve-favicon')
-var path = require('path')
+let favicon = require('serve-favicon')
+let path = require('path')
 const res = require("express/lib/response")
 
 const PORT = process.env.PORT || 3000
