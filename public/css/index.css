@@ -1,7 +1,8 @@
-table, td{
-    border: 1px solid black;
+table,
+td {
+  border: 1px solid black;
 }
 
-img.tableLogo{
-    max-width: 20px;
+img.tableLogo {
+  max-width: 20px;
 }
