@@ -5,7 +5,8 @@ age();
 function age() {
   let xhr = new XMLHttpRequest();
   //xhr.open("GET", "/js/data.json");
-  xhr.open("GET", "http://localhost:3001/football");
+  //xhr.open("GET", "http://localhost:3001/football");
+  xhr.open("GET", "https://kalle-backend.herokuapp.com/fotball");
   xhr.onload = function () {
     let data = JSON.parse(this.response);
     createTable(data);
