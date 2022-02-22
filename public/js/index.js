@@ -35,6 +35,7 @@ const player = {
   y: canvas.height,
   speed: 5,
   dx: 0,
+  dy: 0,
   hasFired: false
 };
 
@@ -98,17 +99,26 @@ function playerBulletDetectCollision(){
 
 function newPos(){
   player.x += player.dx;
+  player.y += player.dy;
 
   detectWalls();
 }
 
-function detectWalls(){
+function detectWalls() {
+  //upper wall
+  if (player.y < 0) {
+    player.y = 0;
+  }
+  //lower wall
+  if (player.y + player.h > canvas.height) {
+    player.y = canvas.height - player.h;
+  }
   //left wall
-  if(player.x < 0){
+  if (player.x < 0) {
     player.x = 0;
   }
   //right wall
-  if(player.x + player.w > canvas.width){
+  if (player.x + player.w > canvas.width) {
     player.x = canvas.width - player.w;
   }
 }
