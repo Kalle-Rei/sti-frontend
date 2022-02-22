@@ -24,6 +24,12 @@ const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 
+// Game parameters
+// @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
+const alienMargin = 50; // space between each alien
+const maxAliensPerRow = 10;
+
+
 const player = {
   w: 50,
   h: 70,
@@ -37,7 +43,7 @@ const player = {
 const alien = {
   w: 40,
   h: 40,
-  x: (canvas.width - 50)/2, // 50 == alien.w
+  x: 0,
   y: 0,
   speed: 5,
   dx: 0,
@@ -48,8 +54,10 @@ function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
-function drawAlien(){
-  ctx.drawImage(alienSprite1, alien.x, alien.y, alien.w, alien.h);
+function drawAlienRow(){
+  for(let i = 1; i < maxAliensPerRow + 1; i++){
+    ctx.drawImage(alienSprite1, (alien.x + i*alienMargin), alien.y, alien.w, alien.h);
+  }
 }
 
 function clear(){
@@ -87,7 +95,7 @@ function update(){
 
   drawPlayer();
 
-  drawAlien();
+  drawAlienRow();
 
   newPos();
 
