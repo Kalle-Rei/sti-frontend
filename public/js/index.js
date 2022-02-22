@@ -124,6 +124,48 @@ function keyUp(e){
   }
 }
 
+// start of alien-related code
+//@TODO: move this elsewhere
+let currentFrame = 0;
+let waitFramesToMove = 10;
+let aliens = []; //tracks the aliens that are still alive
+
+//render
+for (let alien of aliens){
+  alien.render(ctx, currentFrame, waitFramesToMove);
+}
+//generate the aliens
+let alien = Alien();
+// The amount of aliens that fit is approximate. No problem
+// fHA = floor(validWidth / (alienWidth+margin)) * 0.8 -> to allow 20%
+// space for the aliens to move
+let fitHorizontalAliens = Math.floor((
+  size.width*(1-2*moveLimit) / (alien.size.width + alienMargin)) * 0.8); //@TODO: add moveLimit and alienMargin
+let y = 0;
+let x;
+let newAlien;
+
+//@TODO: possibly add more enemy sprites here
+const Alien = (aX, aY) => {
+  let imgLoaded = 0;
+  const img1 = new Image();
+  img1.src = "/images/enemy01";
+  img1.onload = () => imgLoaded += 1;
+
+  
+  const sprites = [img1]; 
+  const alien = {};
+
+  alien.position = {x: aX, y: aY};
+  alien.size = {width: 22, height: 16};
+
+  let img;
+  alien.render = (ctx, currentFrame, waitFramesToMove) => {
+    ctx.drawImage(img, alien.position.x, alien.position.y, alien.size.width, alien.size.height);
+  };
+  return alien;
+};
+
 update();
 
 document.addEventListener("keydown", keyDown);
