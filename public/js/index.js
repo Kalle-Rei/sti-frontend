@@ -22,12 +22,23 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
+const alienSprite1 = document.getElementById("enemy01");
 
 const player = {
   w: 50,
   h: 70,
-  x: (canvas.width - 50)/2, // 50 = player.w
+  x: (canvas.width - 50)/2, // 50 == player.w
   y: canvas.height,
+  speed: 5,
+  dx: 0,
+  dy: 0
+};
+
+const alien = {
+  w: 40,
+  h: 40,
+  x: (canvas.width - 50)/2, // 50 == alien.w
+  y: 0,
   speed: 5,
   dx: 0,
   dy: 0
@@ -35,6 +46,10 @@ const player = {
 
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
+}
+
+function drawAlien(){
+  ctx.drawImage(alienSprite1, alien.x, alien.y, alien.w, alien.h);
 }
 
 function clear(){
@@ -71,6 +86,8 @@ function update(){
   clear();
 
   drawPlayer();
+
+  drawAlien();
 
   newPos();
 
@@ -123,48 +140,6 @@ function keyUp(e){
     //player.dy = 0;
   }
 }
-
-// // start of alien-related code
-// //@TODO: move this elsewhere
-// let currentFrame = 0;
-// let waitFramesToMove = 10;
-// let aliens = []; //tracks the aliens that are still alive
-
-// //render
-// for (let alien of aliens){
-//   alien.render(ctx, currentFrame, waitFramesToMove);
-// }
-// //generate the aliens
-// let alien = Alien();
-// // The amount of aliens that fit is approximate. No problem
-// // fHA = floor(validWidth / (alienWidth+margin)) * 0.8 -> to allow 20%
-// // space for the aliens to move
-// let fitHorizontalAliens = Math.floor((
-//   size.width*(1-2*moveLimit) / (alien.size.width + alienMargin)) * 0.8); //@TODO: add moveLimit and alienMargin
-// let y = 0;
-// let x;
-// let newAlien;
-
-// //@TODO: possibly add more enemy sprites here
-// const Alien = (aX, aY) => {
-//   let imgLoaded = 0;
-//   const img1 = new Image();
-//   img1.src = "/images/enemy01";
-//   img1.onload = () => imgLoaded += 1;
-
-  
-//   const sprites = [img1]; 
-//   const alien = {};
-
-//   alien.position = {x: aX, y: aY};
-//   alien.size = {width: 22, height: 16};
-
-//   let img;
-//   alien.render = (ctx, currentFrame, waitFramesToMove) => {
-//     ctx.drawImage(img, alien.position.x, alien.position.y, alien.size.width, alien.size.height);
-//   };
-//   return alien;
-// };
 
 update();
 
