@@ -26,3 +26,22 @@ app.get("/", function (req, res) {
 app.listen(PORT, function () {
   console.log(`Server started on port ${PORT}`);
 });
+
+// Start of Space invaders code
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const image = document.getElementById("source");
+const player = {
+  w: 50,
+  h: 70,
+  x: 20,
+  y: 200,
+  speed: 5,
+  dx: 0,
+  dy: 0
+};
+
+function drawPlayer(){
+  ctx.drawImage
+}
