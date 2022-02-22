@@ -71,7 +71,7 @@ function drawAlienRow(){
 
 function drawPlayerBullet(){
   if(!player.hasFired){
-    playerBullet.x = player.x;
+    playerBullet.x = player.x + player.w/2;
   }
   ctx.fillStyle = "#333";
   ctx.fillRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
@@ -87,7 +87,7 @@ function playerBulletNewPos(){
 }
 
 function playerBulletDetectCollision(){
-  if(playerBullet.y < 0){
+  if(playerBullet.y < -20){ // check against the inversion of playerBullet.h 
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
     console.log("Collision detected. player.hasFired = " + player.hasFired);
