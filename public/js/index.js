@@ -24,7 +24,7 @@ const alienSprite1 = document.getElementById("enemy01");
 
 // Game parameters
 // @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
-const alienMargin = 50; // space between each alien
+const alienMargin = 50; // alien.w + 10 = 50
 const maxAliensPerRow = 10;
 
 
@@ -43,9 +43,8 @@ const playerBullet = {
   w: 5,
   h: 20,
   x: player.x,
-  y: player.y,
+  y: player.y - player.h,
   speed: -10,
-  dx: 0,
   dy: -10
 };
 
