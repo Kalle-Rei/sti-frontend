@@ -17,8 +17,6 @@
 
 // Start of Space invaders code
 
-//@TODO: remove everything related to moving the player on the y-axis
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
@@ -37,7 +35,17 @@ const player = {
   y: canvas.height,
   speed: 5,
   dx: 0,
-  dy: 0
+  hasFired: false
+};
+
+const playerBullet = {
+  w: 5,
+  h: 20,
+  x: player.x,
+  y: player.y,
+  speed: -10,
+  dx: 0,
+  dy: -10
 };
 
 const alien = {
@@ -60,13 +68,36 @@ function drawAlienRow(){
   }
 }
 
+function drawPlayerBullet(){
+  if(!player.hasFired){
+    playerBullet.x = player.x;
+  }
+  ctx.fillStyle = "#333";
+  ctx.fillRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
+}
+
 function clear(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+function playerBulletNewPos(){
+  playerBullet.y += playerBullet.dy;
+  playerBulletDetectCollision();
+}
+
+function playerBulletDetectCollision(){
+  if(playerBullet.y < 0){
+    player.hasFired = false;
+    ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
+    console.log("Collision detected. player.hasFired = " + player.hasFired);
+    console.log("playerBullet.y = " + playerBullet.y);
+    playerBullet.y = player.y;
+    console.log("Reset playerBullet.y. New value: " + playerBullet.y);
+  }
+}
+
 function newPos(){
   player.x += player.dx;
-  player.y += player.dy;
 
   detectWalls();
 }
@@ -80,14 +111,6 @@ function detectWalls(){
   if(player.x + player.w > canvas.width){
     player.x = canvas.width - player.w;
   }
-  //upper wall
-  if(player.y < 0){
-    player.y = 0;
-  }
-  //lower wall
-  if(player.y + player.h > canvas.height){
-    player.y = canvas.height - player.h;
-  }
 }
 
 function update(){
@@ -97,18 +120,15 @@ function update(){
 
   drawAlienRow();
 
+  if(player.hasFired){
+    drawPlayerBullet();
+    playerBulletNewPos();
+  }
+
   newPos();
 
   requestAnimationFrame(update);
 }
-
-// function moveUp(){
-//   player.dy = -player.speed;
-// }
-
-// function moveDown(){
-//   player.dy = player.speed;
-// }
 
 function moveLeft(){
   player.dx = -player.speed;
@@ -125,12 +145,12 @@ function keyDown(e){
   else if(e.key === "ArrowLeft" || e.key === "Left"){
     moveLeft();
   }
-  // else if(e.key === "ArrowDown" || e.key === "Down"){
-  //   moveDown();
-  // }
-  // else if(e.key === "ArrowUp" || e.key === "Up"){
-  //   moveUp();
-  // }
+  else if(e.key === "Space" || e.key === "Up" || e.key === "ArrowUp"){
+    drawPlayerBullet();
+    player.hasFired = true;
+    console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
+    console.log("playerBullet.y = " + playerBullet.y);
+  }
 }
 
 function keyUp(e){
@@ -138,14 +158,9 @@ function keyUp(e){
     e.key == "Right" ||
     e.key == "ArrowRight" ||
     e.key == "Left" ||
-    e.key == "ArrowLeft" //||
-    // e.key == "Up" ||
-    // e.key == "ArrowUp" ||
-    // e.key == "Down" ||
-    // e.key == "ArrowDown"
+    e.key == "ArrowLeft"
   ){
     player.dx = 0;
-    //player.dy = 0;
   }
 }
 
