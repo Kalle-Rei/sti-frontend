@@ -26,7 +26,11 @@ const alienSprite1 = document.getElementById("enemy01");
 // @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
 const alienMargin = 50; // alien.w + 10 = 50
 const maxAliensPerRow = 10;
+const maxAlienRows = 5; // maximum amount of rows on screen at any given time
+const verticalJump = 50; // how far down a row moves (alien.h + 10)
 
+// game inits
+let aliens = []; // Store all alive aliens
 
 const player = {
   w: 50,
@@ -48,7 +52,7 @@ const playerBullet = {
   dy: -10
 };
 
-const alien = {
+let alien = {
   w: 40,
   h: 40,
   x: 0,
@@ -62,9 +66,14 @@ function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
+//@TODO: rewrite this function to work with alien objects that are added to aliens[] as they're being drawn
 function drawAlienRow(){
+  let newAlien;
   for(let i = 1; i < maxAliensPerRow + 1; i++){
     ctx.drawImage(alienSprite1, (alien.x + i*alienMargin), alien.y, alien.w, alien.h);
+    newAlien = alien => {alien.w, alien.h, (alien.x + i*alienMargin), alien.y, alien.speed, alien.dx, alien.dy};
+    aliens.push(newAlien);
+    console.log("alien i = " + i +  " created at x = " + (alien.x + i*alienMargin));
   }
 }
 
