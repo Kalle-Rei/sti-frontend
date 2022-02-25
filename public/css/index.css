@@ -3,6 +3,7 @@
   box-sizing: border-box;
 }
 
+/* @TODO: fix the styling. This looks bad. */
 body {
   background-color: #333;
   color: #fff;

@@ -55,7 +55,8 @@ const player = {
   speed: 5,
   dx: 0,
   dy: 0,
-  hasFired: false
+  hasFired: false,
+  lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
 };
 
 const playerBullet = {
@@ -101,6 +102,7 @@ function createAliens(){
   }
 }
 
+//@TODO: this will need rewriting if more than 1 alien sprite is in use
 function drawAliens(){
   for(let i = 0; i < aliens.length; i++){
     ctx.drawImage(alienSprite1, aliens[i].x, aliens[i].y, aliens[i].w, aliens[i].h);
@@ -124,6 +126,7 @@ function playerBulletNewPos(){
   playerBulletDetectCollision();
 }
 
+//@TODO: this function needs logic for collisions with aliens
 function playerBulletDetectCollision(){
   if(playerBullet.y < -20){ // check against the inversion of playerBullet.h 
     player.hasFired = false;
