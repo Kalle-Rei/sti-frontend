@@ -1,4 +1,1 @@
-# sti-frontend
-Space Invaders
-
-<a href="https://www.flaticon.com/free-icons/space-invaders" title="space invaders icons">Space invaders icons created by Freepik - Flaticon</a>
+This branch is only saved for documentation purposes; it is neither functional nor in use.
