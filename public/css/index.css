@@ -27,3 +27,8 @@ body {
 #enemy01 {
   display: none;
 }
+
+/* Possibly unecessary but might as well hide them if they're not being used*/
+#enemy02a01, #enemy02a02 {
+  display: none;
+}
