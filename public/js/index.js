@@ -29,13 +29,13 @@ const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 40; // how far down a row moves (alien.h + 10)
 
 // game inits
-let aliens = []; // Store all alive aliens
+let aliens = []; // Store all living aliens
 let alienCurrentRow = 1;
 let runOnce = true;
 let rightMostAlien = 0;
 let leftMostAlien = 0;
 let alienSpeed = 0.5;
-let alienDirection = 1;
+let alienDirection = 1; // positive = move to the right; negative = move to the left
 
 const player = {
   w: 50,
@@ -63,12 +63,7 @@ const Alien = (aX, aY) => {
   alien.h = 30;
   alien.x = aX;
   alien.y = aY;
-  // alien.inRowNumber = 1;
-  // alien.speed = 5;
-  // alien.dx = 1;
   alien.isHit = false;
-  // alien.isLeftMost = false;
-  // alien.isRightMost = false;
   return alien;
 };
 
@@ -129,7 +124,6 @@ function playerBulletDetectCollision(){
   }
 }
 
-//@TODO: update alien position from here as well
 function newPos(){
   player.x += player.dx;
 
@@ -227,7 +221,7 @@ function keyDown(e){
   else if(e.key === "ArrowLeft" || e.key === "Left"){
     moveLeft();
   }
-  else if(e.key === "Space" || e.key === "Up" || e.key === "ArrowUp"){
+  if(e.key === "Space" || e.key === "Up" || e.key === "ArrowUp"){
     drawPlayerBullet();
     player.hasFired = true;
     console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
