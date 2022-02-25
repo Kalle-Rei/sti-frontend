@@ -35,6 +35,23 @@ let alienRowCounter = 0;
 let runOnce = false;
 let newAlien = {};
 
+let testArray = [
+  {
+    x: 11,
+    y: 22,
+    z: 33
+
+  }
+];
+
+const TestMe = (tX, tY, tZ) => {
+  const testMe = {};
+  testMe.x = tX;
+  testMe.y = tY;
+  testMe.z = tZ;
+  return testMe;
+};
+ 
 const player = {
   w: 50,
   h: 70,
@@ -67,6 +84,33 @@ const alien = {
 
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
+}
+
+function fillTestArray(){
+  let newTest = {};
+  let x = 0;
+  let y = 1;
+  let z = 2;
+  console.log("fillTestArray start. testArray.length = " + testArray.length);
+  if(testArray.length < 3){
+    for(let i = 0; i < 3; i++){
+      x += i;
+      y += i;
+      z += i;
+      newTest = TestMe(x, y, z);
+      console.log("newTest created");
+      console.log("newTest.x = " + newTest.x + " newTest.y = " + newTest.y +" newTest.z = " + newTest.z);
+      testArray.push(newTest);
+      console.log("newTest pushed to testArray. testArray.length = " + testArray.length);
+    }
+  }
+  console.log("entering for loop")
+  for(let tester in testArray){
+    console.log("loop number: " + tester);
+    console.log(testArray[tester]);
+  }
+  console.log("end of fillTestArray function");
+  runOnce = true;
 }
 
 // Creates aliens as distinct objects
@@ -161,8 +205,11 @@ function update(){
  // drawAliens();
 
   drawPlayer();
+  //if((testArray.length) < 2){testArray.fillTestArray();} 
+  if(!runOnce){fillTestArray();}
+  // fillTestArray();
 
-  createAlienRow();
+  // createAlienRow();
   //initAliens();
   //checkAliens();
 
