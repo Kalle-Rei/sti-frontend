@@ -231,7 +231,7 @@ function keyDown(e){
   else if(e.key === "ArrowLeft" || e.key === "Left"){
     moveLeft();
   }
-  if(e.key === "Space" || e.key === "Up" || e.key === "ArrowUp"){
+  if((e.key === "Space" || e.key === "Up" || e.key === "ArrowUp") && !player.hasFired){
     drawPlayerBullet();
     player.hasFired = true;
     console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
