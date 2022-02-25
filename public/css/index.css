@@ -32,3 +32,11 @@ body {
 #enemy02a01, #enemy02a02 {
   display: none;
 }
+
+.mainFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
