@@ -24,15 +24,19 @@ const alienSprite1 = document.getElementById("enemy01");
 
 // Game parameters
 // @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
-const alienMargin = 50; // alien.w + 10
+const alienMargin = 40; // alien.w + 10
 const maxAliensPerRow = 10;
 const maxAlienRows = 5; // maximum amount of rows on screen at any given time
-const verticalJump = 50; // how far down a row moves (alien.h + 10)
+const verticalJump = 40; // how far down a row moves (alien.h + 10)
 
 // game inits
 let aliens = []; // Store all alive aliens
 let alienCurrentRow = 1;
 let runOnce = true;
+let rightMostAlien = 0;
+let leftMostAlien = 0;
+let alienSpeed = 0.5;
+let alienDirection = 1;
 
 const player = {
   w: 50,
@@ -46,7 +50,7 @@ const player = {
 };
 
 const playerBullet = {
-  w: 5,
+  w: 4,
   h: 20,
   x: player.x,
   y: player.y - player.h,
@@ -56,15 +60,16 @@ const playerBullet = {
 
 const Alien = (aX, aY) => {
   const alien = {};
-  alien.w = 40;
-  alien.h = 40;
+  alien.w = 30;
+  alien.h = 30;
   alien.x = aX;
   alien.y = aY;
-  alien.speed = 5;
-  alien.dx = 1;
+  // alien.inRowNumber = 1;
+  // alien.speed = 5;
+  // alien.dx = 1;
   alien.isHit = false;
-  alien.isLeftMost = false;
-  alien.isRightMost = false;
+  // alien.isLeftMost = false;
+  // alien.isRightMost = false;
   return alien;
 };
 
@@ -72,22 +77,14 @@ function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
-//@TODO: only call this function at game start
+//only call this function at game start
 function createAlienRow(){
   console.log("start of createAlienRow(). runOnce=" + runOnce);
   console.log("alienCurrentRow in createAlienRow: " + alienCurrentRow);
   let newAlien = {};
   if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= 5){
     for(let i = 0; i < maxAliensPerRow; i++){
-      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-50);
-      if(i === 0){
-        newAlien.isLeftMost = true;
-        console.log("newAlien.isLeftMost=" + newAlien.isLeftMost + " created at newAlien.x=" + newAlien.x + " newAlien.y=" + newAlien.y);
-      }
-      else if(i === 9){
-        newAlien.isRightMost = true;
-        console.log("newAlien.isRightMost=" + newAlien.isRightMost + " created at newAlien.x=" + newAlien.x + " newAlien.y=" + newAlien.y);
-      }
+      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-40);
       aliens.push(newAlien);
       console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
     }
@@ -136,21 +133,42 @@ function playerBulletDetectCollision(){
 //@TODO: update alien position from here as well
 function newPos(){
   player.x += player.dx;
-  
-  //@TODO: collision detection needs to know if the current alien is the right or leftmost one
-
-  // for(let i = 0; i < aliens.length; i++){
-  //   if((aliens[i].x += (aliens[i].dx*=aliens[i].speed) > (aliens[i].x + aliens[i].w)) || //collision with the right wall
-  //   (aliens[i].x += (aliens[i].dx*=aliens[i].speed)) < 0 //collision with the left wall
-  //   //collision with other alien to the right
-  //   //collision with other alien to the left
-  //   ){
-  //     aliens[i].dx*=-1;
-  //   }
-  //   aliens[i].x += (aliens[i].dx*=aliens[i].speed);
-  // }
 
   detectWalls();
+  moveAliens();
+}
+
+function moveAliens(){
+  for(let alien of aliens){
+    alien.x += alienSpeed*alienDirection;
+
+    if(alienDirection > 0){
+      if(alien.x + alien.w > rightMostAlien){
+        rightMostAlien = alien.x + alien.w;
+      }
+      if(alien.x > leftMostAlien){
+        leftMostAlien = alien.x;
+      }
+    }
+    else{
+      if(alien.x + alien.w < rightMostAlien){
+        rightMostAlien = alien.x + alien.w;
+      }
+      if(alien.x < leftMostAlien){
+        leftMostAlien = alien.x;
+      }
+    }
+  }
+
+  // if the any alien collides with a wall: all aliens jump down...
+  if((rightMostAlien >= canvas.width && alienDirection > 0) ||
+    (leftMostAlien <= 0 && alienDirection < 0)){
+      for(let alien of aliens){
+        alien.y += verticalJump;
+      }
+      //... and change direction!
+      alienDirection *= -1;
+    }
 }
 
 function alienCollision(){
