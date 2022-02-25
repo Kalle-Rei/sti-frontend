@@ -60,7 +60,7 @@ const player = {
 };
 
 const playerBullet = {
-  w: 4,
+  w: 3.5,
   h: 20,
   x: player.x,
   y: player.y - player.h,
@@ -128,7 +128,7 @@ function playerBulletNewPos(){
 
 //@TODO: this function needs logic for collisions with aliens
 function playerBulletDetectCollision(){
-  if(playerBullet.y < -20){ // check against the inversion of playerBullet.h 
+  if(playerBullet.y < -playerBullet.h){
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
     console.log("Collision detected. player.hasFired = " + player.hasFired);
