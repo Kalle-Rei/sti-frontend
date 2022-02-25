@@ -22,6 +22,15 @@ const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 
+/**
+ * Not used currently.
+ * These 2 sprites would both belong to the same enemy,
+ * with a different one being chosen each tick, 
+ * as a sort of rudimentary animation.
+ */
+const alienSprite2a1 = document.getElementById("enemy02a01");
+const alienSprite2a2 = document.getElementById("enemy02a02");
+
 // Game parameters
 const alienMargin = 40; // alien.w + 10
 const maxAliensPerRow = 10;
