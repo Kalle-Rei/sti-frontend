@@ -84,7 +84,7 @@ function createAlienRow(){
   let newAlien = {};
   if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= 5){
     for(let i = 0; i < maxAliensPerRow; i++){
-      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-40);
+      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-verticalJump);
       aliens.push(newAlien);
       console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
     }
