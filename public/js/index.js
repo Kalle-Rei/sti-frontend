@@ -71,14 +71,16 @@ function drawPlayer(){
 
 //@TODO: add logic for creating additional rows below the first one
 function createAlienRow(){
+  console.log("alienCurrentRow in createAlienRow: " + alienCurrentRow);
   let newAlien = {};
-  if(aliens.length < 10){ //@TODO: remove this condition; it's only a temporary bandaid during testing
+  if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= 5){ //@TODO: remove this condition; it's only a temporary bandaid during testing
     for(let i = 0; i < maxAliensPerRow; i++){
-      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow));
+      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-50);
       aliens.push(newAlien);
       console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
     }
   }
+  if(alienCurrentRow <= 5){alienCurrentRow++;}
 }
 
 function drawAliens(){
