@@ -24,13 +24,14 @@ const alienSprite1 = document.getElementById("enemy01");
 
 // Game parameters
 // @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
-const alienMargin = 50; // alien.w + 10 = 50
+const alienMargin = 50; // alien.w + 10
 const maxAliensPerRow = 10;
 const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 50; // how far down a row moves (alien.h + 10)
 
 // game inits
 let aliens = []; // Store all alive aliens
+let alienCurrentRow = 1;
 
 const player = {
   w: 50,
@@ -52,28 +53,38 @@ const playerBullet = {
   dy: -10
 };
 
-let alien = {
-  w: 40,
-  h: 40,
-  x: 0,
-  y: 0,
-  speed: 5,
-  dx: 0,
-  dy: 0
+const Alien = (aX, aY) => {
+  const alien = {};
+  alien.w = 40;
+  alien.h = 40;
+  alien.x = aX;
+  alien.y = aY;
+  alien.speed = 5;
+  alien.dx = 0;
+  alien.isHit = false;
+  return alien;
 };
 
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
-//@TODO: rewrite this function to work with alien objects that are added to aliens[] as they're being drawn
-function drawAlienRow(){
-  let newAlien;
-  for(let i = 1; i < maxAliensPerRow + 1; i++){
-    ctx.drawImage(alienSprite1, (alien.x + i*alienMargin), alien.y, alien.w, alien.h);
-    newAlien = alien => {alien.w, alien.h, (alien.x + i*alienMargin), alien.y, alien.speed, alien.dx, alien.dy};
-    aliens.push(newAlien);
-    console.log("alien i = " + i +  " created at x = " + (alien.x + i*alienMargin));
+//@TODO: add logic for creating additional rows below the first one
+function createAlienRow(){
+  let newAlien = {};
+  if(aliens.length < 10){ //@TODO: remove this condition; it's only a temporary bandaid during testing
+    for(let i = 0; i < maxAliensPerRow; i++){
+      newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow));
+      aliens.push(newAlien);
+      console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
+    }
+  }
+}
+
+function drawAliens(){
+  for(let i = 0; i < aliens.length; i++){
+    ctx.drawImage(alienSprite1, aliens[i].x, aliens[i].y, aliens[i].w, aliens[i].h);
+    // console.log("alien drawn at x=" + aliens[i].x + " y="+aliens[i].y);
   }
 }
 
@@ -105,9 +116,10 @@ function playerBulletDetectCollision(){
   }
 }
 
+//@TODO: update alien position from here as well
 function newPos(){
   player.x += player.dx;
-  player.y += player.dy;
+  //player.y += player.dy;
 
   detectWalls();
 }
@@ -136,7 +148,9 @@ function update(){
 
   drawPlayer();
 
-  drawAlienRow();
+  createAlienRow();
+
+  if(!(aliens.length === 0)){drawAliens()};
 
   if(player.hasFired){
     drawPlayerBullet();
