@@ -23,7 +23,6 @@ const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 
 // Game parameters
-// @TODO: possibly add more variables for vertical movement and tracking leftmost/rightmost alien here
 const alienMargin = 40; // alien.w + 10
 const maxAliensPerRow = 10;
 const maxAlienRows = 5; // maximum amount of rows on screen at any given time
@@ -82,15 +81,15 @@ function createAlienRow(){
   console.log("start of createAlienRow(). runOnce=" + runOnce);
   console.log("alienCurrentRow in createAlienRow: " + alienCurrentRow);
   let newAlien = {};
-  if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= 5){
+  if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= maxAlienRows){
     for(let i = 0; i < maxAliensPerRow; i++){
       newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-verticalJump);
       aliens.push(newAlien);
       console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
     }
   }
-  if(alienCurrentRow <= 5){alienCurrentRow++;}
-  else if(alienCurrentRow > 5){
+  if(alienCurrentRow <= maxAlienRows){alienCurrentRow++;}
+  else if(alienCurrentRow > maxAlienRows){
     runOnce = false;
     console.log("end of createAlienRow(). runOnce=" + runOnce);
   }
