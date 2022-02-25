@@ -45,6 +45,7 @@ let rightMostAlien = 0;
 let leftMostAlien = 0;
 let alienSpeed = 0.5;
 let alienDirection = 1; // positive = move to the right; negative = move to the left
+let currentScore = 0;
 
 const player = {
   w: 50,
@@ -62,8 +63,8 @@ const playerBullet = {
   h: 20,
   x: player.x,
   y: player.y - player.h,
-  speed: -10,
-  dy: -10
+  speed: -8,
+  dy: -8
 };
 
 const Alien = (aX, aY) => {
@@ -73,6 +74,7 @@ const Alien = (aX, aY) => {
   alien.x = aX;
   alien.y = aY;
   alien.isHit = false;
+  alien.points = 10;  //@TODO: refactor this if/when additional types of aliens are added
   return alien;
 };
 
@@ -81,9 +83,9 @@ function drawPlayer(){
 }
 
 //only call this function at game start
-function createAlienRow(){
-  console.log("start of createAlienRow(). runOnce=" + runOnce);
-  console.log("alienCurrentRow in createAlienRow: " + alienCurrentRow);
+function createAliens(){
+  console.log("start of createAliens(). runOnce=" + runOnce);
+  console.log("alienCurrentRow in createAliens: " + alienCurrentRow);
   let newAlien = {};
   if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= maxAlienRows){
     for(let i = 0; i < maxAliensPerRow; i++){
@@ -95,7 +97,7 @@ function createAlienRow(){
   if(alienCurrentRow <= maxAlienRows){alienCurrentRow++;}
   else if(alienCurrentRow > maxAlienRows){
     runOnce = false;
-    console.log("end of createAlienRow(). runOnce=" + runOnce);
+    console.log("end of createAliens(). runOnce=" + runOnce);
   }
 }
 
@@ -173,10 +175,6 @@ function moveAliens(){
     }
 }
 
-function alienCollision(){
-
-}
-
 function detectWalls() {
   //upper wall
   if (player.y < 0) {
@@ -201,7 +199,7 @@ function update(){
 
   drawPlayer();
 
-  if(runOnce){createAlienRow()};
+  if(runOnce){createAliens()};
 
   if(!(aliens.length === 0)){drawAliens()};
 
