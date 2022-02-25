@@ -33,7 +33,7 @@ const verticalJump = 50; // how far down a row moves (alien.h + 10)
 let aliens = []; // Store all alive aliens
 let alienRowCounter = 0;
 let runOnce = false;
-let newAlien = {};
+//let newAlien = {};
 
 let testArray = [
   {
@@ -72,14 +72,16 @@ const playerBullet = {
   dy: -10
 };
 
-const alien = {
-  w: 40,
-  h: 40,
-  x: 0,
-  y: 0,
-  speed: 5,
-  dx: 0,
-  dy: 0
+const Alien = (aX, aY) => {
+  const alien = {};
+  alien.w = 40,
+  alien.h = 40,
+  alien.x = aX,
+  alien.y = aY,
+  alien.speed = 5,
+  alien.dx = 0,
+  alien.dy = 0
+  return alien;
 };
 
 function drawPlayer(){
@@ -116,21 +118,23 @@ function fillTestArray(){
 // Creates aliens as distinct objects
 //@TODO: clean up comments rewrite to make this actually work
 function createAlienRow() {
+  let newAlien = {};
   if(aliens.length < 10){
     for (let i = 1; i < maxAliensPerRow + 1; i++) {
       //ctx.drawImage(alienSprite1, (alien.x + i*alienMargin), alien.y, alien.w, alien.h);
-      newAlien = (alien) => {
-        alien.w,
-        alien.h,
-        (alien.x + i * alienMargin),
-        alien.y,
-        alien.speed,
-        alien.dx,
-        alien.dy;
-      };
+      newAlien = Alien((i*alienMargin), 0);
+      // newAlien = (alien) => {
+      //   alien.w,
+      //   alien.h,
+      //   (alien.x + i * alienMargin),
+      //   alien.y,
+      //   alien.speed,
+      //   alien.dx,
+      //   alien.dy;
+      // };
       aliens.push(newAlien);
       console.log("new alien added. aliens.length = " + aliens.length);
-      console.log("newAlien.x = " + newAlien.x)
+      // console.log("newAlien.x = " + newAlien.x)
     }
   }
   
@@ -138,8 +142,8 @@ function createAlienRow() {
 
 //@TODO: figure out how to return an object from aliens[]
 function drawAliens(){
-  for(let alien in aliens){
-    ctx.drawImage(alienSprite1, aliens[alien].x, aliens[alien].y, aliens[alien].w, aliens[alien].h);
+  for(let i = 0; i < aliens.length; i++){
+    ctx.drawImage(alienSprite1, aliens[i].x, aliens[i].y, aliens[i].w, aliens[i].h);
     // console.log("alien= " + alien);
     // console.log("alien.x = " + " " + aliens[alien].x + "alien.y = " + aliens[alien].y + "alien.w = " + aliens[alien].w + "alien.h = " + aliens[alien].h);
   }
@@ -202,14 +206,16 @@ function detectWalls() {
 function update(){
   clear();
 
- // drawAliens();
+  createAlienRow();
+
+  drawAliens();
 
   drawPlayer();
   //if((testArray.length) < 2){testArray.fillTestArray();} 
-  if(!runOnce){fillTestArray();}
+  //if(!runOnce){fillTestArray();}
   // fillTestArray();
 
-  // createAlienRow();
+  
   //initAliens();
   //checkAliens();
 
