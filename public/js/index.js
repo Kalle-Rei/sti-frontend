@@ -51,6 +51,7 @@ let alienDirection = 1; // positive = move to the right; negative = move to the 
 let currentScore = 0;
 let playing = true;
 let maxAlienBullets = 3; // maximum amount of alien projectiles on the screen at any given time
+let alienBullets = []; // store all active alienBullets
 
 const player = {
   w: 50,
@@ -80,6 +81,7 @@ const Alien = (aX, aY) => {
   alien.y = aY;
   alien.isHit = false;
   alien.points = 10;  //@TODO: refactor this if/when additional types of aliens are added
+  alien.isShooting = false;
   return alien;
 };
 
@@ -88,7 +90,7 @@ const AlienBullet = (bX, bY) => {
   alienBullet.w = 2.5;
   alienBullet.h = 16;
   alienBullet.x = bX;
-  alienBullet.y = bY;
+  alienBullet.y = bY; // might need to be tweaked
   alienBullet.dy = 6;
   return alienBullet;
 }
@@ -113,6 +115,39 @@ function createAliens(){
   else if(alienCurrentRow > maxAlienRows){
     runOnce = false;
     console.log("end of createAliens(). runOnce=" + runOnce);
+  }
+}
+
+function aliensToShoot(){
+  for(let alien of aliens){
+    // nested if-statements for the sake of readability
+
+    // aliens that are already shooting need not apply
+    if(!alien.isShooting){  
+      // check if the alien occupies a similar position on the x-axis as the player does
+      //@TODO: tweak these numbers and move them to global variables
+      if((alien.x - 40) <= player.x && (alien.x + alien.w + 40) >= player.x){
+          
+        //@TODO: implement a check for the y-axis here, to ensure that only 1 alien per column will get isShooting=true
+
+        // the chance for an alien to fire is random, but increases as the total number of aliens decrease
+        if(alienChanceToShoot() <= 2){
+          alien.isShooting = true;
+        }
+      }
+    }
+  }
+}
+
+function alienChanceToShoot(){
+  if(aliens.length >= 35){
+    return (Math.floor(Math.random() * 10)); // return a number between 1 and 10
+  }
+  else if(aliens.length < 35 && aliens.length >= 20){
+    return (Math.floor(Math.random() * 6)); // return a number between 1 and 6
+  }
+  else{
+    return (Math.floor(Math.random() * 4)); // return a number between 1 and 4
   }
 }
 
@@ -177,6 +212,7 @@ function resetPlayerBullet(){
   //console.log("Reset playerBullet.y. New value: " + playerBullet.y);
 }
 
+// finds and handles aliens hit by the player
 function checkAliens(){
   for (let i = 0; i < aliens.length; i++){
     if(aliens[i].isHit){
@@ -263,6 +299,7 @@ function update(){
     // @TODO: call a function that displays a victory screen along with the player's score
     // @TODO: send the score to sti-backend 
   }
+  if(alienBullets.length < maxAlienBullets){aliensToShoot();} // set aliens to shoot as long as there isn't more than maxAlienBullets on screen
 
   if(player.hasFired){
     drawPlayerBullet();
