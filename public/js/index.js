@@ -126,7 +126,7 @@ function playerBulletNewPos(){
   playerBulletDetectCollision();
 }
 
-//@TODO: this function needs logic for collisions with aliens
+//@TODO: for some reason the bullet regularly hits 2-3 aliens at once. It should not be able to hit more than 1.
 function playerBulletDetectCollision(){
   if(playerBullet.y < -playerBullet.h){ //@TODO: what exactly does this check??
     player.hasFired = false;
@@ -137,19 +137,22 @@ function playerBulletDetectCollision(){
   }
   else{
     for(let alien of aliens){
+
+      // @TODO: might be a good idea to make alien hitboxes smaller to make hitting them harder. Alternatively the bullet could get smaller
+
       // check if bullet is on the same x as an alien
       if(playerBullet.x + playerBullet.w >= alien.x &&
         playerBullet.x <= alien.x + alien.w){
           // check if the bullet has the same y position as any alien with the same x
-          if(playerBullet.y >= alien.y + alien.h && playerBullet.y - playerBullet.h <=
+          if(playerBullet.y >= alien.y && playerBullet.y - playerBullet.h <=
             alien.y){
-              alien.isHit = true;
               player.hasFired = false;
+              alien.isHit = true;
+              // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
+              checkAliens();  
               ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
               console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
               resetPlayerBullet();
-              // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
-              checkAliens();  
             }
         }
     }
@@ -163,9 +166,11 @@ function resetPlayerBullet(){
 }
 
 function checkAliens(){
+  let index = 0;
   for(let alien of aliens){
     if(alien.isHit){
-      aliens.splice(alien, 1);  //remove any alien with isHit == true from aliens[]
+      index = alien;
+      aliens.splice(index, 1);  //remove any alien with isHit == true from aliens[]
       console.log("checkAliens() removed an alien from aliens[]");
     }
   }
