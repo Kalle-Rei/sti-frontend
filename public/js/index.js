@@ -128,13 +128,43 @@ function playerBulletNewPos(){
 
 //@TODO: this function needs logic for collisions with aliens
 function playerBulletDetectCollision(){
-  if(playerBullet.y < -playerBullet.h){
+  if(playerBullet.y < -playerBullet.h){ //@TODO: what exactly does this check??
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
     console.log("Collision detected. player.hasFired = " + player.hasFired);
-    console.log("playerBullet.y = " + playerBullet.y);
-    playerBullet.y = player.y;
-    console.log("Reset playerBullet.y. New value: " + playerBullet.y);
+    resetPlayerBullet();
+    
+  }
+  else{
+    for(let alien of aliens){
+      // check if bullet is on the same x as an alien
+      if(playerBullet.x + playerBullet.w >= alien.x &&
+        playerBullet.x <= alien.x + alien.w){
+          // check if the bullet has the same y position as any alien with the same x
+          if(playerBullet.y >= alien.y + alien.h && playerBullet.y - playerBullet.h <=
+            alien.y){
+              alien.isHit = true;
+              player.hasFired = false;
+              ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
+              console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
+              resetPlayerBullet();
+            }
+        }
+    }
+  }
+}
+
+function resetPlayerBullet(){
+  console.log("playerBullet.y = " + playerBullet.y);
+  playerBullet.y = player.y;
+  console.log("Reset playerBullet.y. New value: " + playerBullet.y);
+}
+
+function checkAliens(){
+  for(let alien of aliens){
+    if(alien.isHit){
+      //@TODO: call a function to delete alien from the array
+    }
   }
 }
 
