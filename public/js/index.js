@@ -148,6 +148,8 @@ function playerBulletDetectCollision(){
               ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
               console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
               resetPlayerBullet();
+              // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
+              checkAliens();  
             }
         }
     }
@@ -163,7 +165,8 @@ function resetPlayerBullet(){
 function checkAliens(){
   for(let alien of aliens){
     if(alien.isHit){
-      //@TODO: call a function to delete alien from the array
+      aliens.splice(alien, 1);  //remove any alien with isHit == true from aliens[]
+      console.log("checkAliens() removed an alien from aliens[]");
     }
   }
 }
