@@ -89,7 +89,7 @@ const AlienBullet = (bX, bY) => {
   alienBullet.h = 16;
   alienBullet.x = bX;
   alienBullet.y = bY;
-  alienBullet.speed = 8;
+  alienBullet.dy = 6;
   return alienBullet;
 }
 
