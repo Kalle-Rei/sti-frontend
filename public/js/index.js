@@ -137,6 +137,47 @@ function aliensToShoot(){
       }
     }
   }
+  alienShootBullet();
+}
+
+// Generates an alienBullet, pushes it to alienBullets[], and calls drawAlienBullets()
+function alienShootBullet(){
+  let newAlienBullet = {};
+  for (let alien of aliens){
+    if(alien.isShooting){
+      newAlienBullet = AlienBullet(alien.x, alien.y);
+      alienBullets.push(newAlienBullet);
+      console.log("Alien fired bullet. alienBullets.length=" + alienBullets.length);
+      alien.isShooting = false;
+    }
+  }
+  drawAlienBullet(); // possibly unneccessary, since update will be calling this function anyway
+}
+
+function drawAlienBullet(){
+  for(let i = 0; i < alienBullets.length; i++){
+    ctx.fillStyle = "#333";
+    ctx.fillRect(alienBullets[i].x, alienBullets[i].y, alienBullets[i].w, alienBullets[i].h);
+  }
+}
+
+function alienBulletNewPos(){
+  for(let i = 0; i < alienBullets.length; i++){
+    alienBullets[i].y += alienBullets[i].dy;
+    alienBulletDetectCollision();
+  }
+}
+
+
+function alienBulletDetectCollision(){
+  for(let i = 0; i < alienBullets.length; i++){
+    if(alienBullets[i].y + alienBullets[i].h > canvas.height){
+      console.log("alienBullet hit lower wall at y=" + alienBullets[i].y);
+      alienBullets.splice(i, 1);
+      console.log("alienBullet removed. alienBullets.length=" + alienBullets.length);
+    }
+  }
+
 }
 
 function alienChanceToShoot(){
@@ -300,6 +341,10 @@ function update(){
     // @TODO: send the score to sti-backend 
   }
   if(alienBullets.length < maxAlienBullets){aliensToShoot();} // set aliens to shoot as long as there isn't more than maxAlienBullets on screen
+  if(alienBullets.length > 0){
+    drawAlienBullet();
+    alienBulletNewPos();
+  }
 
   if(player.hasFired){
     drawPlayerBullet();
