@@ -38,6 +38,8 @@ const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 40; // how far down a row moves (alien.h + 10)
 const topMargin = 40; // leave the top of the canvas free in order to display currentScore and player.lives there
 
+//@TODO: make score and player.lives visible to the user at the top of the screen
+
 // game inits
 let aliens = []; // Store all living aliens
 let alienCurrentRow = 1; // Used to generate aliens. Increments by 1 per row, to a maximum value of maxAlienRows
@@ -48,6 +50,7 @@ let alienSpeed = 0.5;
 let alienDirection = 1; // positive = move to the right; negative = move to the left
 let currentScore = 0;
 let playing = true;
+let maxAlienBullets = 3; // maximum amount of alien projectiles on the screen at any given time
 
 const player = {
   w: 50,
@@ -57,8 +60,8 @@ const player = {
   speed: 5,
   dx: 0,
   dy: 0,
-  hasFired: false
-  //lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
+  hasFired: false,
+  lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
 };
 
 const playerBullet = {
@@ -66,7 +69,6 @@ const playerBullet = {
   h: 20,
   x: player.x,
   y: player.y - player.h,
-  speed: -8,
   dy: -8
 };
 
@@ -80,6 +82,16 @@ const Alien = (aX, aY) => {
   alien.points = 10;  //@TODO: refactor this if/when additional types of aliens are added
   return alien;
 };
+
+const AlienBullet = (bX, bY) => {
+  const alienBullet = {};
+  alienBullet.w = 2.5;
+  alienBullet.h = 16;
+  alienBullet.x = bX;
+  alienBullet.y = bY;
+  alienBullet.speed = 8;
+  return alienBullet;
+}
 
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
