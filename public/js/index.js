@@ -144,20 +144,24 @@ function aliensToShoot(){
 function alienShootBullet(){
   let newAlienBullet = {};
   for (let alien of aliens){
-    if(alien.isShooting){
+    if(alien.isShooting && alienBullets.length < maxAlienBullets){
       newAlienBullet = AlienBullet(alien.x, alien.y);
       alienBullets.push(newAlienBullet);
       console.log("Alien fired bullet. alienBullets.length=" + alienBullets.length);
       alien.isShooting = false;
     }
+    else if(alien.isShooting && alienBullets.length >= maxAlienBullets){
+      alien.isShooting = false;
+    }
   }
-  drawAlienBullet(); // possibly unneccessary, since update will be calling this function anyway
 }
 
+//@TODO: if new alien sprites are added the hardcoded values used here need to be refactored
 function drawAlienBullet(){
   for(let i = 0; i < alienBullets.length; i++){
     ctx.fillStyle = "#333";
-    ctx.fillRect(alienBullets[i].x, alienBullets[i].y, alienBullets[i].w, alienBullets[i].h);
+    // 30 == alien.h, 15 == alien.x/2
+    ctx.fillRect(alienBullets[i].x + 15, alienBullets[i].y + 30, alienBullets[i].w, alienBullets[i].h);
   }
 }
 
