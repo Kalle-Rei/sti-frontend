@@ -53,6 +53,7 @@ let playing = true;
 let maxAlienBullets = 3; // maximum amount of alien projectiles on the screen at any given time
 let alienBullets = []; // store all active alienBullets
 
+//@TODO: refactor player and playerBullet to look and work like Alien and AlienBullet
 const player = {
   w: 50,
   h: 70,
@@ -118,6 +119,7 @@ function createAliens(){
   }
 }
 
+//@TODO: increase hardcoded margins slightly as soon as all other systems are in place and functioning
 function aliensToShoot(){
   for(let alien of aliens){
     // nested if-statements for the sake of readability
@@ -147,7 +149,7 @@ function alienShootBullet(){
     if(alien.isShooting && alienBullets.length < maxAlienBullets){
       newAlienBullet = AlienBullet(alien.x, alien.y);
       alienBullets.push(newAlienBullet);
-      console.log("Alien fired bullet. alienBullets.length=" + alienBullets.length);
+      //console.log("Alien fired bullet. alienBullets.length=" + alienBullets.length);
       alien.isShooting = false;
     }
     else if(alien.isShooting && alienBullets.length >= maxAlienBullets){
@@ -172,16 +174,23 @@ function alienBulletNewPos(){
   }
 }
 
-
 function alienBulletDetectCollision(){
   for(let i = 0; i < alienBullets.length; i++){
     if(alienBullets[i].y + alienBullets[i].h > canvas.height){
-      console.log("alienBullet hit lower wall at y=" + alienBullets[i].y);
+      //console.log("alienBullet hit lower wall at y=" + alienBullets[i].y);
       alienBullets.splice(i, 1);
-      console.log("alienBullet removed. alienBullets.length=" + alienBullets.length);
+      //console.log("alienBullet removed. alienBullets.length=" + alienBullets.length);
     }
+    else if(
+      alienBullets[i].y + alienBullets[i].h >= player.y && 
+      alienBullets[i].x >= player.x &&
+      alienBullets[i].x + alienBullets[i].w <= player.x + player.w){
+        console.log("the player has been hit by an alienBullet");
+        alienBullets.splice(i, 1);
+        player.lives--;
+        console.log("player.lives=" + player.lives);
+      }
   }
-
 }
 
 function alienChanceToShoot(){
