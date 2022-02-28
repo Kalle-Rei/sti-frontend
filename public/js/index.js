@@ -260,11 +260,7 @@ function playerBulletDetectCollision(){
   }
 }
 
-function resetPlayerBullet(){
-  //console.log("playerBullet.y = " + playerBullet.y);
-  playerBullet.y = player.y;
-  //console.log("Reset playerBullet.y. New value: " + playerBullet.y);
-}
+function resetPlayerBullet(){playerBullet.y = player.y;}
 
 // finds and handles aliens hit by the player
 function checkAliens(){
@@ -308,11 +304,17 @@ function moveAliens(){
     }
   }
 
-  // if the any alien collides with a wall: all aliens jump down...
+  // if any alien collides with a wall: all aliens jump down...
   if((rightMostAlien >= canvas.width && alienDirection > 0) ||
     (leftMostAlien <= 0 && alienDirection < 0)){
       for(let alien of aliens){
         alien.y += verticalJump;
+        // check if the aliens have reached the bottom of the screen
+        if(alien.y + alien.h >= canvas.height){
+          console.log("the aliens have reached the player")
+          player.lives = 0;
+          gameOver();
+        }
       }
       //... and change direction!
       alienDirection *= -1;
