@@ -148,6 +148,7 @@ function playerBulletDetectCollision(){
             alien.y){
               player.hasFired = false;
               alien.isHit = true;
+              console.log("alien with index " + alien + " has been hit by the player")
               // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
               checkAliens();  
               ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
@@ -166,12 +167,11 @@ function resetPlayerBullet(){
 }
 
 function checkAliens(){
-  let index = 0;
-  for(let alien of aliens){
-    if(alien.isHit){
-      index = alien;
-      aliens.splice(index, 1);  //remove any alien with isHit == true from aliens[]
-      console.log("checkAliens() removed an alien from aliens[]");
+  for (let i = 0; i < aliens.length; i++){
+    if(aliens[i].isHit){
+      aliens.splice(i, 1);  //remove any alien with isHit == true from aliens[]
+      console.log("checkAliens() removed an alien w/ index " + i + " from aliens[]");
+
     }
   }
 }
