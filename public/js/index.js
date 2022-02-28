@@ -338,6 +338,32 @@ function detectWalls() {
   }
 }
 
+function win(){
+  //@TODO: logic that fires after all aliens are dead
+  console.log("GAME WON -- all aliens defeated");
+  playing = false;
+  currentScore *= player.lives;
+}
+
+function lose(){
+  //@TODO: logic that fires when player.lives = 0
+  console.log("GAME OVER -- all lives lost");
+  playing = false;
+}
+
+function gameOver(){
+  if(player.lives <= 0){
+    player.lives = 0;
+    lose();
+    //@TODO: erase aliens, the player and all bullets from the canvas, and display currentScore
+    //@TODO: create a button that allows the player to start a new game 
+  }
+  if(aliens.length === 0){
+    if(player.lives <= 1){player.lives = 1;} // make sure the score calculations work even if player.lives gets weird values
+    win();
+  }
+}
+
 function update(){
   clear();
 
@@ -346,13 +372,6 @@ function update(){
   if(runOnce){createAliens()};
 
   if(!(aliens.length === 0)){drawAliens();}
-  else {
-    playing = false;
-    console.log("all aliens dead. playing=" + playing);
-    // the game has been won
-    // @TODO: call a function that displays a victory screen along with the player's score
-    // @TODO: send the score to sti-backend 
-  }
   if(alienBullets.length < maxAlienBullets){aliensToShoot();} // set aliens to shoot as long as there isn't more than maxAlienBullets on screen
   if(alienBullets.length > 0){
     drawAlienBullet();
