@@ -36,16 +36,18 @@ const alienMargin = 40; // alien.w + 10
 const maxAliensPerRow = 10;
 const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 40; // how far down a row moves (alien.h + 10)
+const topMargin = 40; // leave the top of the canvas free in order to display currentScore and player.lives there
 
 // game inits
 let aliens = []; // Store all living aliens
-let alienCurrentRow = 1;
+let alienCurrentRow = 1; // Used to generate aliens. Increments by 1 per row, to a maximum value of maxAlienRows
 let runOnce = true;
 let rightMostAlien = 0;
 let leftMostAlien = 0;
 let alienSpeed = 0.5;
 let alienDirection = 1; // positive = move to the right; negative = move to the left
 let currentScore = 0;
+let playing = true;
 
 const player = {
   w: 50,
@@ -55,8 +57,8 @@ const player = {
   speed: 5,
   dx: 0,
   dy: 0,
-  hasFired: false,
-  lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
+  hasFired: false
+  //lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
 };
 
 const playerBullet = {
@@ -126,14 +128,12 @@ function playerBulletNewPos(){
   playerBulletDetectCollision();
 }
 
-//@TODO: for some reason the bullet regularly hits 2-3 aliens at once. It should not be able to hit more than 1.
 function playerBulletDetectCollision(){
-  if(playerBullet.y < -playerBullet.h){ //@TODO: what exactly does this check??
+  if(playerBullet.y < -playerBullet.h){ // check if the bullet has travelled past the top wall
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
-    console.log("Collision detected. player.hasFired = " + player.hasFired);
+    //console.log("Collision detected. player.hasFired = " + player.hasFired);
     resetPlayerBullet();
-    
   }
   else{
     for(let alien of aliens){
@@ -148,11 +148,10 @@ function playerBulletDetectCollision(){
             alien.y){
               player.hasFired = false;
               alien.isHit = true;
-              console.log("alien with index " + alien + " has been hit by the player")
               // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
               checkAliens();  
               ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
-              console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
+              //console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
               resetPlayerBullet();
             }
         }
@@ -161,17 +160,19 @@ function playerBulletDetectCollision(){
 }
 
 function resetPlayerBullet(){
-  console.log("playerBullet.y = " + playerBullet.y);
+  //console.log("playerBullet.y = " + playerBullet.y);
   playerBullet.y = player.y;
-  console.log("Reset playerBullet.y. New value: " + playerBullet.y);
+  //console.log("Reset playerBullet.y. New value: " + playerBullet.y);
 }
 
 function checkAliens(){
   for (let i = 0; i < aliens.length; i++){
     if(aliens[i].isHit){
+      //@TODO: possibly move score calculations to its own function
+      currentScore += aliens[i].points;
+      console.log("Score increased. currentScore=" + currentScore);
       aliens.splice(i, 1);  //remove any alien with isHit == true from aliens[]
       console.log("checkAliens() removed an alien w/ index " + i + " from aliens[]");
-
     }
   }
 }
@@ -242,7 +243,14 @@ function update(){
 
   if(runOnce){createAliens()};
 
-  if(!(aliens.length === 0)){drawAliens()};
+  if(!(aliens.length === 0)){drawAliens();}
+  else {
+    playing = false;
+    console.log("all aliens dead. playing=" + playing);
+    // the game has been won
+    // @TODO: call a function that displays a victory screen along with the player's score
+    // @TODO: send the score to sti-backend 
+  }
 
   if(player.hasFired){
     drawPlayerBullet();
@@ -272,8 +280,8 @@ function keyDown(e){
   if((e.key === "Space" || e.key === "Up" || e.key === "ArrowUp") && !player.hasFired){
     drawPlayerBullet();
     player.hasFired = true;
-    console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
-    console.log("playerBullet.y = " + playerBullet.y);
+    //console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
+    //console.log("playerBullet.y = " + playerBullet.y);
   }
 }
 
