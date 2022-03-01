@@ -44,7 +44,7 @@ const player = {
   dx: 0,
   dy: 0,
   hasFired: false,
-  lives: 3  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
+  lives: 5  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
 };
 
 const playerBullet = {
@@ -81,14 +81,9 @@ function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
-//@TODO: temporary, hacky solution used only for demoing
-function drawScore(){
-  let tempScore = "Score: " + currentScore;
-  let currentLives = "Remaining Lives: " + player.lives;
-  ctx.fillStyle = "#black";
-  ctx.font = "20px Arial";
-  ctx.fillText(tempScore, 0, 20);
-  ctx.fillText(currentLives, canvas.width - 200, 20);
+function dynDrawScore(){
+  document.getElementById("playerScore").innerHTML = currentScore;
+  document.getElementById("playerLives").innerHTML = player.lives;
 }
 
 //only call this function at game start
@@ -361,7 +356,7 @@ function update(){
   clear();
 
   drawPlayer();
-  drawScore();
+  dynDrawScore();
 
   if(runOnce){createAliens()};
 
