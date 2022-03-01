@@ -69,3 +69,22 @@ h2 {
   padding: 0;
   font-size: 1.25rem;
 }
+
+#scoreForm{
+  position:absolute;
+  margin-top: 320px;
+  display: none;
+}
+.formStyle{
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ccc; 
+  border-radius: 6px; 
+  margin: 10px;
+  font-size: 20px;
+}
+
+#formButton{
+  display: flex;
+  margin: auto;
+}

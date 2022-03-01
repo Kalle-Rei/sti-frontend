@@ -15,6 +15,14 @@
         <img src="/images/enemy01.png" alt="" id="enemy01" />
         <img src="/images/enemy02a01.png" alt="" id="enemy02a01" />
         <img src="/images/enemy02a02.png" alt="" id="enemy02a02" />
+        <div id="gameOver"></div>
+        <form id="scoreForm">
+            Your name:
+            <input name="player_name" class="formStyle" maxlength="20" type="text" id="player_name" placeholder="Enter name" required>
+            <br>Score:
+            <input name="player_score" class="formStyle" type="number" value="0" id="score" readonly></input><br>
+            <button type="submit" class="formStyle" id="formButton">End game</button>
+        </form>
 
         <script src="js/index.js"></script>
         <footer class="mainFooter">

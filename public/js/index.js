@@ -4,6 +4,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
+const scoreForm = document.getElementById("scoreForm");
 
 /**
  * Not used currently.
@@ -337,6 +338,7 @@ function win(){
   currentScore *= player.lives;
   finalScore = currentScore;
   //@TODO: let the player input a name and send name+score to the backend
+  scoreForm.style.display = "block";
 }
 
 function lose(){
@@ -344,6 +346,7 @@ function lose(){
   console.log("GAME OVER -- all lives lost");
   playing = false;
   finalScore = currentScore;
+  scoreForm.style.display = "block";
 }
 
 function gameOver(){
