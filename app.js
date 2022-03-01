@@ -19,14 +19,6 @@ app.get("/images", function (req, res){
   res.sendFile(__dirname + "/public/images");
 });
 
-// app.get("/football", function (req, res) {
-//   res.sendFile(__dirname + "/public/index.html");
-// });
-
-// app.get("/hypnosismic", function (req, res) {
-//     res.sendFile(__dirname + "/public/index.html");
-// });
-
 app.listen(PORT, function () {
   console.log(`Server started on port ${PORT}`);
 });
