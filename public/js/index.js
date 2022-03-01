@@ -24,7 +24,7 @@ const verticalJump = 40;    // how far down a row moves (alien.h + 10)
 const topMargin = 40;       // leave the top of the canvas free in order to display currentScore and player.lives there
 
 // aliens will try to shoot the player if their positition on the x-axis is player.w +- alienMarginOfError
-const alienMarginOfError = 40;
+const alienMarginOfError = 50;
 
 // game inits
 let aliens = [];          // Store all living aliens
@@ -122,7 +122,7 @@ function aliensToShoot(){
           
         //@TODO: possibly implement a check for the y-axis here, to ensure that only 1 alien per column will get isShooting=true
 
-        // the chance for an alien to fire is random, but increases as the total number of aliens decrease
+        // the chance for an alien to fire is random and increases as the total number of aliens decrease
         if(alienChanceToShoot() <= 2){
           alien.isShooting = true;
         }
@@ -247,7 +247,6 @@ function resetPlayerBullet(){playerBullet.y = player.y;}
 function checkAliens(){
   for (let i = 0; i < aliens.length; i++){
     if(aliens[i].isHit){
-      //@TODO: possibly move score calculations to its own function
       currentScore += aliens[i].points;
       console.log("Score increased. currentScore=" + currentScore);
       aliens.splice(i, 1);  //remove any alien with isHit == true from aliens[]
@@ -302,20 +301,16 @@ function moveAliens(){
 }
 
 function detectWalls() {
-  //upper wall
-  if (player.y < 0) {
+  if (player.y < 0) {                         // upper wall
     player.y = 0;
   }
-  //lower wall
-  if (player.y + player.h > canvas.height) {
+  if (player.y + player.h > canvas.height) {  // lower wall
     player.y = canvas.height - player.h;
   }
-  //left wall
-  if (player.x < 0) {
+  if (player.x < 0) {                         // left wall
     player.x = 0;
   }
-  //right wall
-  if (player.x + player.w > canvas.width) {
+  if (player.x + player.w > canvas.width) {   // right wall
     player.x = canvas.width - player.w;
   }
 }
