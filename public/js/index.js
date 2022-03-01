@@ -350,6 +350,11 @@ function setHighScore(playerScore){
   scoreFormObject.elements["score"].value = playerScore;
 }
 
+function getPlayerName(){
+  playerName = scoreFormObject.elements["player_name"].value;
+  console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
+}
+
 function update(){
   clear();
 
