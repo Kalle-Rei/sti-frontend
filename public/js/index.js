@@ -21,6 +21,9 @@ const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 40; // how far down a row moves (alien.h + 10)
 const topMargin = 40; // leave the top of the canvas free in order to display currentScore and player.lives there
 
+// aliens will try to shoot the player if their positition on the x-axis is player.w +- alienMarginOfError
+const alienMarginOfError = 40;
+
 // game inits
 let aliens = []; // Store all living aliens
 let alienCurrentRow = 1; // Used to generate aliens. Increments by 1 per row, to a maximum value of maxAlienRows
@@ -113,10 +116,9 @@ function aliensToShoot(){
     // aliens that are already shooting need not apply
     if(!alien.isShooting){  
       // check if the alien occupies a similar position on the x-axis as the player does
-      //@TODO: tweak these numbers and move them to global variables
-      if((alien.x - 40) <= player.x && (alien.x + alien.w + 40) >= player.x){
+      if((alien.x - alienMarginOfError) <= player.x && (alien.x + alien.w + alienMarginOfError) >= player.x){
           
-        //@TODO: implement a check for the y-axis here, to ensure that only 1 alien per column will get isShooting=true
+        //@TODO: possibly implement a check for the y-axis here, to ensure that only 1 alien per column will get isShooting=true
 
         // the chance for an alien to fire is random, but increases as the total number of aliens decrease
         if(alienChanceToShoot() <= 2){
@@ -171,10 +173,10 @@ function alienBulletDetectCollision(){
       alienBullets[i].y + alienBullets[i].h >= player.y && 
       alienBullets[i].x >= player.x &&
       alienBullets[i].x + alienBullets[i].w <= player.x + player.w){
-        console.log("the player has been hit by an alienBullet");
+        // console.log("the player has been hit by an alienBullet");
         alienBullets.splice(i, 1);
         player.lives--;
-        console.log("player.lives=" + player.lives);
+        // console.log("player.lives=" + player.lives);
       }
   }
 }
@@ -216,7 +218,7 @@ function playerBulletNewPos(){
 }
 
 function playerBulletDetectCollision(){
-  if(playerBullet.y < -playerBullet.h){ // check if the bullet has travelled past the top wall
+  if(playerBullet.y < -playerBullet.h){ // check if a playerBullet has travelled past the top wall
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
     //console.log("Collision detected. player.hasFired = " + player.hasFired);
