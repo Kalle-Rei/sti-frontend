@@ -1,5 +1,13 @@
 //index.js
 
+// AJAX engine
+age();
+function age(){
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://localhost:3001/highscores");
+  xhr.send();
+}
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
@@ -349,6 +357,8 @@ function setHighScore(playerScore){
 function getPlayerName(){
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
+  let data = {"user": playerName, "score": score}
+  let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
 }
 
 function update(){
