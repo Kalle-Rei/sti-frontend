@@ -38,8 +38,6 @@ let currentScore = 0;
 let playing = true;
 let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time. default=3
 let alienBullets = [];    // store all active alienBullets
-
-//let finalScore = 0;       // the score that gets sent to the backend
 let playerName = "";      // the name that gets sent to the backend
 
 //@TODO: refactor player and playerBullet to look and work like Alien and AlienBullet
@@ -117,7 +115,6 @@ function createAliens(){
 function aliensToShoot(){
   for(let alien of aliens){
     // nested if-statements for the sake of readability
-
     // aliens that are already shooting need not apply
     if(!alien.isShooting){  
       // check if the alien occupies a similar position on the x-axis as the player does
@@ -142,7 +139,6 @@ function alienShootBullet(){
     if(alien.isShooting && alienBullets.length < maxAlienBullets){
       newAlienBullet = AlienBullet(alien.x, alien.y);
       alienBullets.push(newAlienBullet);
-      //console.log("Alien fired bullet. alienBullets.length=" + alienBullets.length);
       alien.isShooting = false;
     }
     else if(alien.isShooting && alienBullets.length >= maxAlienBullets){
@@ -170,18 +166,14 @@ function alienBulletNewPos(){
 function alienBulletDetectCollision(){
   for(let i = 0; i < alienBullets.length; i++){
     if(alienBullets[i].y + alienBullets[i].h > canvas.height){
-      //console.log("alienBullet hit lower wall at y=" + alienBullets[i].y);
       alienBullets.splice(i, 1);
-      //console.log("alienBullet removed. alienBullets.length=" + alienBullets.length);
     }
     else if(
       alienBullets[i].y + alienBullets[i].h >= player.y && 
       alienBullets[i].x >= player.x &&
       alienBullets[i].x + alienBullets[i].w <= player.x + player.w){
-        // console.log("the player has been hit by an alienBullet");
         alienBullets.splice(i, 1);
         player.lives--;
-        // console.log("player.lives=" + player.lives);
       }
   }
 }
@@ -226,13 +218,10 @@ function playerBulletDetectCollision(){
   if(playerBullet.y < -playerBullet.h){ // check if a playerBullet has travelled past the top wall
     player.hasFired = false;
     ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
-    //console.log("Collision detected. player.hasFired = " + player.hasFired);
     resetPlayerBullet();
   }
   else{
     for(let alien of aliens){
-
-      // @TODO: might be a good idea to make alien hitboxes smaller to make hitting them harder. Alternatively the bullet could get smaller
 
       // check if bullet is on the same x as an alien
       if(playerBullet.x + playerBullet.w >= alien.x &&
@@ -245,7 +234,6 @@ function playerBulletDetectCollision(){
               // not sure if this is the best place to call checkAliens(), but calling it in update() seems wasteful
               checkAliens();  
               ctx.clearRect(playerBullet.x, playerBullet.y, playerBullet.w, playerBullet.h);
-              //console.log("Collision with alien detected. player.hasFired = " + player.hasFired);
               resetPlayerBullet();
             }
         }
@@ -302,8 +290,7 @@ function moveAliens(){
     (leftMostAlien <= 0 && alienDirection < 0)){
       for(let alien of aliens){
         alien.y += verticalJump;
-        // check if the aliens have reached the bottom of the screen
-        if(alien.y + alien.h >= player.y){
+        if(alien.y + alien.h >= player.y){ // end the game if any alien reaches the player 
           console.log("the aliens have reached the player")
           player.lives = 0;
           gameOver();
@@ -346,6 +333,7 @@ function lose(){
 }
 
 function gameOver(){
+  dynDrawScore(); // update score in the header so the player doesn't feel cheated
   playing = false;
   scoreForm.style.display = "block";
   canvas.style.background = "#333";
@@ -406,8 +394,6 @@ function keyDown(e){
   if((e.key === "Space" || e.key === "Up" || e.key === "ArrowUp") && !player.hasFired){
     drawPlayerBullet();
     player.hasFired = true;
-    //console.log("Pressed " + e.code + ", player.hasFired = " + player.hasFired);
-    //console.log("playerBullet.y = " + playerBullet.y);
   }
 }
 
