@@ -96,6 +96,18 @@ const AlienBullet = (bX, bY) => {
   return alienBullet;
 }
 
+//@TODO: rewrite this function to make it actually work
+// function displayInfo(){
+//   let scoreLives = document.getElementById("scoreLives");
+//   let scoreTable = document.createElement("table"); 
+//   let scoreRow = document.createElement("tr");
+//   let scoreCell = document.createElement("td");
+//   scoreCell.innerHTML = currentScore;
+//   scoreLives.appendChild("scoreTable");
+//   scoreRow.appendChild(scoreCell);
+//   scoreTable.appendChild(scoreRow);
+// }
+
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
