@@ -35,10 +35,10 @@ let alienSpeed = 0.5;
 let alienDirection = 1;   // positive = move to the right; negative = move to the left
 let currentScore = 0;
 let playing = true;
-let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time
+let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time. default=3
 let alienBullets = [];    // store all active alienBullets
 
-let finalScore = 0;       // the score that gets sent to the backend
+//let finalScore = 0;       // the score that gets sent to the backend
 let playerName = "";      // the name that gets sent to the backend
 
 //@TODO: refactor player and playerBullet to look and work like Alien and AlienBullet
@@ -302,7 +302,7 @@ function moveAliens(){
       for(let alien of aliens){
         alien.y += verticalJump;
         // check if the aliens have reached the bottom of the screen
-        if(alien.y + alien.h >= canvas.height){
+        if(alien.y + alien.h >= player.y){
           console.log("the aliens have reached the player")
           player.lives = 0;
           gameOver();
@@ -334,57 +334,59 @@ function detectWalls() {
 
 function win(){
   console.log("GAME WON -- all aliens defeated");
-  playing = false;
   currentScore *= player.lives;
-  finalScore = currentScore;
-  //@TODO: let the player input a name and send name+score to the backend
-  scoreForm.style.display = "block";
+  setHighScore(currentScore);
 }
 
 function lose(){
   //@TODO: logic that fires when player.lives = 0
   console.log("GAME OVER -- all lives lost");
-  playing = false;
-  finalScore = currentScore;
-  scoreForm.style.display = "block";
+  setHighScore(currentScore);
 }
 
 function gameOver(){
+  playing = false;
+  scoreForm.style.display = "block";
+  canvas.style.background = "#333";
   if(player.lives <= 0){
     player.lives = 0;
     lose();
-    //@TODO: erase aliens, the player and all bullets from the canvas, and display currentScore
-    //@TODO: create a button that allows the player to start a new game 
   }
-  if(aliens.length <= 0){
-    if(player.lives <= 1){player.lives = 1;} // make sure the score calculations work even if player.lives gets weird values
+  else if(aliens.length <= 0 && player.lives >= 1){
     win();
   }
+}
+
+//@TODO: delete these comments at some point soon
+// document.getElementById("playerScore").innerHTML = currentScore;
+// document.getElementById("playerLives").innerHTML = player.lives;
+function setHighScore(score){
+  document.getElementById("score").innerHTML = score;
 }
 
 function update(){
   clear();
 
-  drawPlayer();
-  dynDrawScore();
+  if(playing){
+    drawPlayer();
+    dynDrawScore();
 
-  if(runOnce){createAliens()};
-
-  if(!(aliens.length === 0)){drawAliens();}
-  if(alienBullets.length < maxAlienBullets){aliensToShoot();} // set aliens to shoot as long as there isn't more than maxAlienBullets on screen
-  if(alienBullets.length > 0){
-    drawAlienBullet();
-    alienBulletNewPos();
+    if(runOnce){createAliens()};
+    if(!(aliens.length === 0)){drawAliens();}
+    if(alienBullets.length < maxAlienBullets){aliensToShoot();} // set aliens to shoot as long as there isn't more than maxAlienBullets on screen
+    if(alienBullets.length > 0){
+      drawAlienBullet();
+      alienBulletNewPos();
+    }
+    if(player.hasFired){
+      drawPlayerBullet();
+      playerBulletNewPos();
+    }
+    newPos();
+    if(player.lives <= 0 || (aliens.length <= 0 && player.lives >= 1)){
+      gameOver();
+    }
   }
-
-  if(player.hasFired){
-    drawPlayerBullet();
-    playerBulletNewPos();
-  }
-
-  newPos();
-
-  if(playing){gameOver();}
   requestAnimationFrame(update);
 }
 
