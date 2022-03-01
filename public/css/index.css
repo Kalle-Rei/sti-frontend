@@ -29,7 +29,7 @@ body {
   display: none;
 }
 
-/* Possibly unecessary but might as well hide them if they're not being used*/
+/* Unnecessary but might as well hide them for now*/
 #enemy02a01, #enemy02a02 {
   display: none;
 }
@@ -64,7 +64,6 @@ h2 {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* color: #fff; */
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
