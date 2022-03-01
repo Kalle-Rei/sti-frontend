@@ -15,6 +15,10 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
 
+app.get("/images", function (req, res){
+  res.sendFile(__dirname + "/public/images");
+});
+
 // app.get("/football", function (req, res) {
 //   res.sendFile(__dirname + "/public/index.html");
 // });
