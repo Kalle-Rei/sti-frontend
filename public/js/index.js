@@ -50,7 +50,7 @@ const player = {
   dx: 0,
   dy: 0,
   hasFired: false,
-  lives: 5  // the player can survive 3 hits before game over -- any extra lives left at the end will work as a score multiplier
+  lives: 5  // the player can survive x hits before game over -- any extra lives left at the end will work as a score multiplier
 };
 
 const playerBullet = {
@@ -68,7 +68,7 @@ const Alien = (aX, aY) => {
   alien.x = aX;
   alien.y = aY;
   alien.isHit = false;
-  alien.points = 10;  //@TODO: refactor this if/when additional types of aliens are added
+  alien.points = 10;
   alien.isShooting = false;
   return alien;
 };
@@ -92,7 +92,7 @@ function dynDrawScore(){
   document.getElementById("playerLives").innerHTML = player.lives;
 }
 
-//only call this function at game start
+// only call this function at game start
 function createAliens(){
   console.log("start of createAliens(). runOnce=" + runOnce);
   console.log("alienCurrentRow in createAliens: " + alienCurrentRow);
@@ -111,10 +111,9 @@ function createAliens(){
   }
 }
 
-//@TODO: increase hardcoded margins slightly as soon as all other systems are in place and functioning
+// nested if-statements for the sake of readability
 function aliensToShoot(){
   for(let alien of aliens){
-    // nested if-statements for the sake of readability
     // aliens that are already shooting need not apply
     if(!alien.isShooting){  
       // check if the alien occupies a similar position on the x-axis as the player does
@@ -223,7 +222,7 @@ function playerBulletDetectCollision(){
   else{
     for(let alien of aliens){
 
-      // check if bullet is on the same x as an alien
+      // check if playerBullet is on the same x as an alien
       if(playerBullet.x + playerBullet.w >= alien.x &&
         playerBullet.x <= alien.x + alien.w){
           // check if the bullet has the same y position as any alien with the same x
