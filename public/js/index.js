@@ -112,6 +112,15 @@ function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
+function drawScore(){
+  let tempScore = "Score: " + currentScore;
+  let currentLives = "Remaining Lives: " + player.lives;
+  ctx.fillStyle = "#black";
+  ctx.font = "20px Arial";
+  ctx.fillText(tempScore, 0, 20);
+  ctx.fillText(currentLives, canvas.width - 200, 20);
+}
+
 //only call this function at game start
 function createAliens(){
   console.log("start of createAliens(). runOnce=" + runOnce);
@@ -382,6 +391,7 @@ function update(){
   clear();
 
   drawPlayer();
+  drawScore();
 
   if(runOnce){createAliens()};
 
