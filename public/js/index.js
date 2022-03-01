@@ -37,6 +37,9 @@ let playing = true;
 let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time
 let alienBullets = [];    // store all active alienBullets
 
+let finalScore = 0;       // the score that gets sent to the backend
+let playerName = "";      // the name that gets sent to the backend
+
 //@TODO: refactor player and playerBullet to look and work like Alien and AlienBullet
 const player = {
   w: 50,
@@ -329,16 +332,18 @@ function detectWalls() {
 }
 
 function win(){
-  //@TODO: logic that fires after all aliens are dead
   console.log("GAME WON -- all aliens defeated");
   playing = false;
   currentScore *= player.lives;
+  finalScore = currentScore;
+  //@TODO: let the player input a name and send name+score to the backend
 }
 
 function lose(){
   //@TODO: logic that fires when player.lives = 0
   console.log("GAME OVER -- all lives lost");
   playing = false;
+  finalScore = currentScore;
 }
 
 function gameOver(){
