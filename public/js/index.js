@@ -5,6 +5,7 @@ const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 const scoreForm = document.getElementById("scoreForm");
+const scoreFormObject = document.forms["scoreForm"];
 
 /**
  * Not used currently.
@@ -339,7 +340,7 @@ function win(){
 }
 
 function lose(){
-  //@TODO: logic that fires when player.lives = 0
+  //logic that fires when player.lives = 0
   console.log("GAME OVER -- all lives lost");
   setHighScore(currentScore);
 }
@@ -357,11 +358,8 @@ function gameOver(){
   }
 }
 
-//@TODO: delete these comments at some point soon
-// document.getElementById("playerScore").innerHTML = currentScore;
-// document.getElementById("playerLives").innerHTML = player.lives;
-function setHighScore(score){
-  document.getElementById("score").innerHTML = score;
+function setHighScore(playerScore){
+  scoreFormObject.elements["score"].value = playerScore;
 }
 
 function update(){
