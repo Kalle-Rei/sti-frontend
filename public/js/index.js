@@ -95,13 +95,13 @@ function dynDrawScore(){
 // only call this function at game start
 function createAliens(){
   console.log("start of createAliens(). runOnce=" + runOnce);
-  console.log("alienCurrentRow in createAliens: " + alienCurrentRow);
+  //console.log("alienCurrentRow in createAliens: " + alienCurrentRow);
   let newAlien = {};
   if(aliens.length < 10*alienCurrentRow && alienCurrentRow <= maxAlienRows){
     for(let i = 0; i < maxAliensPerRow; i++){
       newAlien = Alien((i*alienMargin), (verticalJump*alienCurrentRow)-verticalJump);
       aliens.push(newAlien);
-      console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
+      //console.log("newAlien added to aliens[]. aliens.length = " + aliens.length);
     }
   }
   if(alienCurrentRow <= maxAlienRows){alienCurrentRow++;}
