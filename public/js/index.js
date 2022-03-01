@@ -24,7 +24,7 @@ const verticalJump = 40;    // how far down a row moves (alien.h + 10)
 const topMargin = 40;       // leave the top of the canvas free in order to display currentScore and player.lives there
 
 // aliens will try to shoot the player if their positition on the x-axis is player.w +- alienMarginOfError
-const alienMarginOfError = 50;
+const alienMarginOfError = 40;
 
 // game inits
 let aliens = [];          // Store all living aliens
