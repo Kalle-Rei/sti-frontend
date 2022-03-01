@@ -1,22 +1,5 @@
 //index.js
 
-// age();
-
-// function age() {
-//   let xhr = new XMLHttpRequest();
-//   //xhr.open("GET", "/js/data.json");
-//   //xhr.open("GET", "http://localhost:3001/football");
-//   //xhr.open("GET", "http://kalle-backend.herokuapp.com/football");
-//   //xhr.open("GET", "http://kalle-backend.herokuapp.com/hypnosismic")
-//   xhr.onload = function () {
-//     let data = JSON.parse(this.response);
-//     createTable(data);
-//   };
-//   xhr.send();
-// }
-
-// Start of Space invaders code
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
@@ -37,8 +20,6 @@ const maxAliensPerRow = 10;
 const maxAlienRows = 5; // maximum amount of rows on screen at any given time
 const verticalJump = 40; // how far down a row moves (alien.h + 10)
 const topMargin = 40; // leave the top of the canvas free in order to display currentScore and player.lives there
-
-//@TODO: make score and player.lives visible to the user at the top of the screen
 
 // game inits
 let aliens = []; // Store all living aliens
@@ -96,22 +77,11 @@ const AlienBullet = (bX, bY) => {
   return alienBullet;
 }
 
-//@TODO: rewrite this function to make it actually work
-// function displayInfo(){
-//   let scoreLives = document.getElementById("scoreLives");
-//   let scoreTable = document.createElement("table"); 
-//   let scoreRow = document.createElement("tr");
-//   let scoreCell = document.createElement("td");
-//   scoreCell.innerHTML = currentScore;
-//   scoreLives.appendChild("scoreTable");
-//   scoreRow.appendChild(scoreCell);
-//   scoreTable.appendChild(scoreRow);
-// }
-
 function drawPlayer(){
   ctx.drawImage(image, player.x, player.y, player.w, player.h);
 }
 
+//@TODO: temporary, hacky solution used only for demoing
 function drawScore(){
   let tempScore = "Score: " + currentScore;
   let currentLives = "Remaining Lives: " + player.lives;
