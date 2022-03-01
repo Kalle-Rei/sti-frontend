@@ -15,27 +15,27 @@ const alienSprite1 = document.getElementById("enemy01");
 // const alienSprite2a2 = document.getElementById("enemy02a02");
 
 // Game parameters
-const alienMargin = 40; // alien.w + 10
-const maxAliensPerRow = 10;
-const maxAlienRows = 5; // maximum amount of rows on screen at any given time
-const verticalJump = 40; // how far down a row moves (alien.h + 10)
-const topMargin = 40; // leave the top of the canvas free in order to display currentScore and player.lives there
+const alienMargin = 40;     // alien.w + 10
+const maxAliensPerRow = 10; // default=10
+const maxAlienRows = 5;     // maximum amount of rows on screen at any given time. default=5
+const verticalJump = 40;    // how far down a row moves (alien.h + 10)
+const topMargin = 40;       // leave the top of the canvas free in order to display currentScore and player.lives there
 
 // aliens will try to shoot the player if their positition on the x-axis is player.w +- alienMarginOfError
 const alienMarginOfError = 40;
 
 // game inits
-let aliens = []; // Store all living aliens
-let alienCurrentRow = 1; // Used to generate aliens. Increments by 1 per row, to a maximum value of maxAlienRows
+let aliens = [];          // Store all living aliens
+let alienCurrentRow = 1;  // Used to generate aliens. Increments by 1 per row, to a maximum value of maxAlienRows
 let runOnce = true;
 let rightMostAlien = 0;
 let leftMostAlien = 0;
 let alienSpeed = 0.5;
-let alienDirection = 1; // positive = move to the right; negative = move to the left
+let alienDirection = 1;   // positive = move to the right; negative = move to the left
 let currentScore = 0;
 let playing = true;
-let maxAlienBullets = 3; // maximum amount of alien projectiles on the screen at any given time
-let alienBullets = []; // store all active alienBullets
+let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time
+let alienBullets = [];    // store all active alienBullets
 
 //@TODO: refactor player and playerBullet to look and work like Alien and AlienBullet
 const player = {
@@ -348,7 +348,7 @@ function gameOver(){
     //@TODO: erase aliens, the player and all bullets from the canvas, and display currentScore
     //@TODO: create a button that allows the player to start a new game 
   }
-  if(aliens.length === 0){
+  if(aliens.length <= 0){
     if(player.lives <= 1){player.lives = 1;} // make sure the score calculations work even if player.lives gets weird values
     win();
   }
@@ -376,6 +376,7 @@ function update(){
 
   newPos();
 
+  if(playing){gameOver();}
   requestAnimationFrame(update);
 }
 
