@@ -346,6 +346,8 @@ function gameOver(){
   }
 }
 
+
+//@TODO: send playerScore and playerName to the backend
 function setHighScore(playerScore){
   scoreFormObject.elements["score"].value = playerScore;
 }
