@@ -11,12 +11,40 @@ const UPDATE_INTERVAL = 5000;
 
 setTimeout(age, UPDATE_FIRST);
 // AJAX engine
-//@TODO: might need to resurrect createTable functions to make the leaderboard
 age();
 function age(){
-  let xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest();
   xhr.open("GET", "http://localhost:3001/highscores");
+  xhr.onload = function(){
+    var data = JSON.parse(this.response)
+    createTable(data);
+  }
   xhr.send();
+}
+
+function createTable(data){
+  var appElement = document.getElementById("app")
+  var aTable = document.createElement("table")
+  appElement.appendChild(aTable)
+  
+  for (let i = 0; i < 5; i++) { //@TODO: refactor this hardcoded value 
+      aTable.appendChild(createRow(data[i].user, data[i].score))  
+      console.log(data[i].user +" " + data[i].score)
+       
+  }
+}
+
+function createRow(user, points){
+  var aRow = document.createElement("tr") 
+  aRow.appendChild(createCell(user))
+  aRow.appendChild(createCell(points))   
+  return aRow
+}
+
+function createCell(content){
+  var aCell = document.createElement("td")
+  aCell.innerHTML = content
+  return aCell;
 }
 
 /**
@@ -359,6 +387,7 @@ function setHighScore(playerScore){
 }
 
 function submitHighScore(){
+  var xhr = new XMLHttpRequest(); //@TODO: might not want to reinitialize this here
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
   let data = {"user": playerName, "score": score}
