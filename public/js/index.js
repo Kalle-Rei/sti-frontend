@@ -8,6 +8,7 @@ const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
 const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
+// var data = [];
 
 setTimeout(age, UPDATE_FIRST);
 // AJAX engine
@@ -16,34 +17,35 @@ function age(){
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "http://localhost:3001/highscores");
   xhr.onload = function(){
-    var data = JSON.parse(this.response)
+    var data = JSON.parse(this.response);
     createTable(data);
   }
   xhr.send();
 }
 
 function createTable(data){
-  var appElement = document.getElementById("app")
-  var aTable = document.createElement("table")
-  appElement.appendChild(aTable)
+  var appElement = document.getElementById("app");
+  var aTable = document.createElement("table");
+  appElement.appendChild(aTable);
   
-  for (let i = 0; i < 5; i++) { //@TODO: refactor this hardcoded value 
-      aTable.appendChild(createRow(data[i].user, data[i].score))  
-      console.log(data[i].user +" " + data[i].score)
+  console.log("createTable. data.length=" + data.length);
+  for (let i = 0; i < data.length; i++) {
+      aTable.appendChild(createRow(data[i].user, data[i].score));
+      console.log(data[i].user +" " + data[i].score);
        
   }
 }
 
 function createRow(user, points){
-  var aRow = document.createElement("tr") 
-  aRow.appendChild(createCell(user))
-  aRow.appendChild(createCell(points))   
-  return aRow
+  var aRow = document.createElement("tr");
+  aRow.appendChild(createCell(user));
+  aRow.appendChild(createCell(points));   
+  return aRow;
 }
 
 function createCell(content){
-  var aCell = document.createElement("td")
-  aCell.innerHTML = content
+  var aCell = document.createElement("td");
+  aCell.innerHTML = content;
   return aCell;
 }
 
@@ -357,12 +359,14 @@ function detectWalls() {
 function win(){
   console.log("GAME WON -- all aliens defeated");
   currentScore *= player.lives;
+  // submitHighScore(currentScore);
   setHighScore(currentScore);
 }
 
 function lose(){
   //logic that fires when player.lives = 0
   console.log("GAME OVER -- all lives lost");
+  // submitHighScore(currentScore);
   setHighScore(currentScore);
 }
 
@@ -387,12 +391,17 @@ function setHighScore(playerScore){
 }
 
 function submitHighScore(){
+  // scoreFormObject.elements["score"].value = currentScore;
+  currentScore = scoreFormObject.elements["score"].value;
+  let playerScore = currentScore;
+  console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
+  //scoreFormObject.elements["score"].value = playerScore;
   var xhr = new XMLHttpRequest(); //@TODO: might not want to reinitialize this here
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
-  let data = {"user": playerName, "score": score}
+  //let data = {"user": playerName, "score": score}
   let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
-  xhr.open("GET", url); // xhr might need to be initialized outside of age()
+  xhr.open("GET", url);
   xhr.send();
 }
 
