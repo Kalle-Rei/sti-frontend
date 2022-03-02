@@ -1,19 +1,23 @@
 //index.js
 
-// AJAX engine
-age();
-function age(){
-  let xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://localhost:3001/highscores");
-  xhr.send();
-}
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
+const UPDATE_FIRST = 0;
+const UPDATE_INTERVAL = 5000;
+
+setTimeout(age, UPDATE_FIRST);
+// AJAX engine
+//@TODO: might need to resurrect createTable functions to make the leaderboard
+age();
+function age(){
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://localhost:3001/highscores");
+  xhr.send();
+}
 
 /**
  * Not used currently.
@@ -354,11 +358,13 @@ function setHighScore(playerScore){
   scoreFormObject.elements["score"].value = playerScore;
 }
 
-function getPlayerName(){
+function submitHighScore(){
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
   let data = {"user": playerName, "score": score}
   let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
+  xhr.open("GET", url); // xhr might need to be initialized outside of age()
+  xhr.send();
 }
 
 function update(){
