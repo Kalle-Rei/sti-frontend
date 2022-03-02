@@ -15,7 +15,8 @@ setTimeout(age, UPDATE_FIRST);
 age();
 function age(){
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://localhost:3001/highscores");
+  // xhr.open("GET", "http://localhost:3001/highscores");
+  xhr.open("GET", "https://kalle-backend.herokuapp.com/highscores")
   xhr.onload = function(){
     var data = JSON.parse(this.response);
     createTable(data);
@@ -23,6 +24,7 @@ function age(){
   xhr.send();
 }
 
+//@TODO: this is a hacky solution that doesn't even work. Needs to be rewritten
 function createTable(data){
   var appElement = document.getElementById("app");
   var aTable = document.createElement("table");
@@ -390,17 +392,19 @@ function setHighScore(playerScore){
   scoreFormObject.elements["score"].value = playerScore;
 }
 
+//@TODO: currently broken and needs to be rewritten most likely
 function submitHighScore(){
   // scoreFormObject.elements["score"].value = currentScore;
   currentScore = scoreFormObject.elements["score"].value;
   let playerScore = currentScore;
   console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
   //scoreFormObject.elements["score"].value = playerScore;
-  var xhr = new XMLHttpRequest(); //@TODO: might not want to reinitialize this here
+  var xhr = new XMLHttpRequest();
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
   //let data = {"user": playerName, "score": score}
-  let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
+  // let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
+  let url ="https://kalle-backend.herokuapp.com/registerscore?user=" + playerName + "&score=" + playerScore;
   xhr.open("GET", url);
   xhr.send();
 }
