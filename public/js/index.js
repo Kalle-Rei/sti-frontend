@@ -29,7 +29,7 @@ function createTable(data){
   appElement.appendChild(aTable);
   
   console.log("createTable. data.length=" + data.length);
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < 5; i++) {
       aTable.appendChild(createRow(data[i].user, data[i].score));
       console.log(data[i].user +" " + data[i].score);
        
