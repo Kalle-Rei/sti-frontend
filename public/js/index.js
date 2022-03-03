@@ -6,11 +6,11 @@ const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
-const UPDATE_FIRST = 0;
+//const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
 // var data = [];
 
-setTimeout(age, UPDATE_FIRST);
+setTimeout(age, UPDATE_INTERVAL);
 // AJAX engine
 age();
 function age(){
@@ -26,7 +26,7 @@ function age(){
 
 //@TODO: this is a hacky solution that doesn't even work. Needs to be rewritten
 function createTable(data){
-  var appElement = document.getElementById("app");
+  var appElement = document.getElementById("gameOver");
   var aTable = document.createElement("table");
   appElement.appendChild(aTable);
   
@@ -79,6 +79,7 @@ let leftMostAlien = 0;
 let alienSpeed = 0.5;
 let alienDirection = 1;   // positive = move to the right; negative = move to the left
 let currentScore = 0;
+let playerScore = 0;
 let playing = true;
 let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time. default=3
 let alienBullets = [];    // store all active alienBullets
@@ -396,7 +397,7 @@ function setHighScore(playerScore){
 function submitHighScore(){
   // scoreFormObject.elements["score"].value = currentScore;
   currentScore = scoreFormObject.elements["score"].value;
-  let playerScore = currentScore;
+  playerScore = currentScore; //@TODO: change this
   console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
   //scoreFormObject.elements["score"].value = playerScore;
   var xhr = new XMLHttpRequest();
