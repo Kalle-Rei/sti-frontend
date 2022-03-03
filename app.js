@@ -19,8 +19,9 @@ app.get("/images", function (req, res){
   res.sendFile(__dirname + "/public/images");
 });
 
-app.get('/registerscore', function (req, res){
+app.get("/registerscore", function (req, res){
   res.sendFile(__dirname + "/public/index.html");
+  console.log("/registerscore called in app.js frontend");
 });
 
 app.listen(PORT, function () {

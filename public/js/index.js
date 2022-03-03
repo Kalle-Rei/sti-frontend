@@ -6,11 +6,11 @@ const image = document.getElementById("source");
 const alienSprite1 = document.getElementById("enemy01");
 const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
-//const UPDATE_FIRST = 0;
+const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
 // var data = [];
 
-setTimeout(age, UPDATE_INTERVAL);
+setTimeout(age, UPDATE_FIRST);
 // AJAX engine
 age();
 function age(){
@@ -20,6 +20,7 @@ function age(){
   xhr.onload = function(){
     var data = JSON.parse(this.response);
     createTable(data);
+    setTimeout(age, UPDATE_INTERVAL);
   }
   xhr.send();
 }
