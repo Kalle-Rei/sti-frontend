@@ -8,7 +8,7 @@ const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
 const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
-// var data = [];
+var data = ["0", "0", "0", "0", "0"];
 
 setTimeout(age, UPDATE_FIRST);
 // AJAX engine
@@ -18,7 +18,7 @@ function age(){
   // xhr.open("GET", "http://localhost:3001/highscores");
   xhr.open("GET", "https://kalle-backend.herokuapp.com/highscores")
   xhr.onload = function(){
-    var data = JSON.parse(this.response);
+    data = JSON.parse(this.response);
     createTable(data);
     setTimeout(age, UPDATE_INTERVAL);
   }
