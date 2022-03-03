@@ -8,7 +8,7 @@ const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
 const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
-var data = ["0", "0", "0", "0", "0"];
+let data = ["0", "0", "0", "0", "0"];
 
 setTimeout(age, UPDATE_FIRST);
 // AJAX engine
