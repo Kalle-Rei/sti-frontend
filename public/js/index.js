@@ -8,47 +8,62 @@ const scoreForm = document.getElementById("scoreForm");
 const scoreFormObject = document.forms["scoreForm"];
 const UPDATE_FIRST = 0;
 const UPDATE_INTERVAL = 5000;
-let data = ["0", "0", "0", "0", "0"];
+// let data = ["0", "0", "0", "0", "0"];
+let data = [];
+// test making these global
+let appElement = document.getElementById("app"); //default=gameOver
+let aTable = document.getElementById("scoreTable");
+const xhr = new XMLHttpRequest();
+appElement.appendChild(aTable);
 
 setTimeout(age, UPDATE_FIRST);
 // AJAX engine
 age();
 function age(){
-  var xhr = new XMLHttpRequest();
+  
   xhr.open("GET", "http://localhost:3001/highscores");
   // xhr.open("GET", "https://kalle-backend.herokuapp.com/highscores")
   xhr.onload = function(){
     data = JSON.parse(this.response);
     createTable(data);
-    setTimeout(age, UPDATE_INTERVAL);
+    // setTimeout(age, UPDATE_INTERVAL);
   }
   xhr.send();
 }
 
-//@TODO: this is a hacky solution that doesn't even work. Needs to be rewritten
+//@TODO: hacky but currently working solution. Needs to be rewritten from scratch
 function createTable(data){
-  var appElement = document.getElementById("gameOver");
-  var aTable = document.createElement("table");
-  appElement.appendChild(aTable);
+  // let appElement = document.getElementById("gameOver");
+  // let aTable = document.getElementById("scoreTable");
+  // appElement.appendChild(aTable);
   
-  console.log("createTable. data.length=" + data.length);
-  for (let i = 0; i < 5; i++) {
+  console.log("createTable pre-for-loop. data.length=" + data.length);
+  if(data.length < 5){
+    for (let i = 0; i < 5; i++) {
       aTable.appendChild(createRow(data[i].user, data[i].score));
-      console.log(data[i].user +" " + data[i].score);
-       
+      console.log("createTable for-loop, i=" + i + " " + data[i].user + " " + data[i].score);
+    }
+  }
+  else if(data.length >= 5){
+    for(let i = 0; i < data.length; i++){
+      aTable.appendChild(createRow(data[i].user, data[i].score));
+      console.log("createTable else-statment loop, i=" + i + " " + data[i].user + " " + data[i].score);
+    }
   }
 }
 
 function createRow(user, points){
-  var aRow = document.createElement("tr");
+  let aRow = document.createElement("tr");
   aRow.appendChild(createCell(user));
   aRow.appendChild(createCell(points));   
+  // console.log("createRow() called");
   return aRow;
 }
 
 function createCell(content){
-  var aCell = document.createElement("td");
+  let aCell = document.createElement("td");
   aCell.innerHTML = content;
+  // console.log("createCell() called");
   return aCell;
 }
 
@@ -63,8 +78,8 @@ function createCell(content){
 
 // Game parameters
 const alienMargin = 40;     // alien.w + 10
-const maxAliensPerRow = 10; // default=10
-const maxAlienRows = 5;     // maximum amount of rows on screen at any given time. default=5
+const maxAliensPerRow = 3; // default=10
+const maxAlienRows = 1;     // maximum amount of rows on screen at any given time. default=5
 const verticalJump = 40;    // how far down a row moves (alien.h + 10)
 const topMargin = 40;       // leave the top of the canvas free in order to display currentScore and player.lives there
 
@@ -79,7 +94,7 @@ let rightMostAlien = 0;
 let leftMostAlien = 0;
 let alienSpeed = 0.5;
 let alienDirection = 1;   // positive = move to the right; negative = move to the left
-let currentScore = 0;
+let currentScore = 0;     //@TODO: merge currentScore and playerScore
 let playerScore = 0;
 let playing = true;
 let maxAlienBullets = 3;  // maximum amount of alien projectiles on the screen at any given time. default=3
@@ -363,14 +378,12 @@ function detectWalls() {
 function win(){
   console.log("GAME WON -- all aliens defeated");
   currentScore *= player.lives;
-  // submitHighScore(currentScore);
   setHighScore(currentScore);
 }
 
 function lose(){
   //logic that fires when player.lives = 0
   console.log("GAME OVER -- all lives lost");
-  // submitHighScore(currentScore);
   setHighScore(currentScore);
 }
 
@@ -396,15 +409,12 @@ function setHighScore(playerScore){
 
 //@TODO: currently broken and needs to be rewritten most likely
 function submitHighScore(){
-  // scoreFormObject.elements["score"].value = currentScore;
   currentScore = scoreFormObject.elements["score"].value;
   playerScore = currentScore; //@TODO: change this
   console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
-  //scoreFormObject.elements["score"].value = playerScore;
-  var xhr = new XMLHttpRequest();
+  // var xhr = new XMLHttpRequest();
   playerName = scoreFormObject.elements["player_name"].value;
   console.log("getPlayerName() called. scoreFormObject.elements[player_name].value=" + playerName);
-  //let data = {"user": playerName, "score": score}
   let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
   // let url ="https://kalle-backend.herokuapp.com/registerscore?user=" + playerName + "&score=" + playerScore;
   xhr.open("GET", url);
