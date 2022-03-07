@@ -11,7 +11,7 @@ const UPDATE_INTERVAL = 5000;
 // let data = ["0", "0", "0", "0", "0"];
 let data = [];
 // test making these global
-let appElement = document.getElementById("app"); //default=gameOver
+let appElement = document.getElementById("scoreDiv"); //default=scoreDiv
 let aTable = document.getElementById("scoreTable");
 const xhr = new XMLHttpRequest();
 appElement.appendChild(aTable);
@@ -33,7 +33,7 @@ function age(){
 
 //@TODO: hacky but currently working solution. Needs to be rewritten from scratch
 function createTable(data){
-  // let appElement = document.getElementById("gameOver");
+  // let appElement = document.getElementById("scoreDiv");
   // let aTable = document.getElementById("scoreTable");
   // appElement.appendChild(aTable);
   

@@ -12,31 +12,33 @@
 </head>
 
 <body>
-    <h1>Space Invaders</h1>
-    <h2>Score:&nbsp;<span id="playerScore"></span>&nbsp;Remaining lives:&nbsp;<span id="playerLives"></span></h2>
     <div class="container">
         <div class="row">
             <div class="col-8">
+                <div id="spaceInvaders">
+                    <h1>Space Invaders</h1>
+                    <h2>Score:&nbsp;<span id="playerScore"></span>&nbsp;Remaining lives:&nbsp;<span id="playerLives"></span></h2>
 
-                <canvas id="canvas" width="650" height="600"></canvas>
-                <img src="/images/char.png" alt="" id="source" />
-                <img src="/images/enemy01.png" alt="" id="enemy01" />
-                <img src="/images/enemy02a01.png" alt="" id="enemy02a01" />
-                <img src="/images/enemy02a02.png" alt="" id="enemy02a02" />
-                <div id="gameOver"></div>
-                <form id="scoreForm">
-                    Your name:&nbsp;
-                    <input name="player_name" class="formStyle" maxlength="20" type="text" id="player_name"
-                        placeholder="Enter name" autocomplete="off" required>
-                    <br>Score:&nbsp;
-                    <input name="player_score" class="formStyle" type="number" value="0" id="score"
-                        readonly></input><br>
-                    <button onclick="submitHighScore()" type="submit" class="formStyle" id="formButton">End
-                        game</button>
-                </form>
+                    <canvas id="canvas" width="650" height="600"></canvas>
+                    <img src="/images/char.png" alt="" id="source" />
+                    <img src="/images/enemy01.png" alt="" id="enemy01" />
+                    <img src="/images/enemy02a01.png" alt="" id="enemy02a01" />
+                    <img src="/images/enemy02a02.png" alt="" id="enemy02a02" />
+                    <div id="gameOver"></div>
+                    <form id="scoreForm">
+                        Your name:&nbsp;
+                        <input name="player_name" class="formStyle" maxlength="20" type="text" id="player_name"
+                            placeholder="Enter name" autocomplete="off" required>
+                        <br>Score:&nbsp;
+                        <input name="player_score" class="formStyle" type="number" value="0" id="score"
+                            readonly></input><br>
+                        <button onclick="submitHighScore()" type="submit" class="formStyle" id="formButton">End
+                            game</button>
+                    </form>
+                </div>
 
             </div>
-            <div class="col-4" id="app">
+            <div class="col-4" id="scoreDiv">
                 <!-- <div id="app"></div> -->
                 <table id="scoreTable"></table>
             </div>
