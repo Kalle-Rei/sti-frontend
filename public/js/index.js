@@ -405,15 +405,11 @@ function gameOver(){
 }
 
 
-//@TODO: send playerScore and playerName to the backend
 function setHighScore(playerScore){
   scoreFormObject.elements["score"].value = playerScore;
 }
 
-//@TODO: currently broken and needs to be rewritten most likely
 function submitHighScore(){
-  // currentScore = scoreFormObject.elements["score"].value;
-  // playerScore = currentScore; //@TODO: change this
   playerScore = scoreFormObject.elements["score"].value;
   console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
   playerName = scoreFormObject.elements["player_name"].value;
