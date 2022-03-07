@@ -21,8 +21,8 @@ setTimeout(age, UPDATE_FIRST);
 // age();
 function age(){
   
-  xhr.open("GET", "http://localhost:3001/highscores");
-  // xhr.open("GET", "https://kalle-backend.herokuapp.com/highscores")
+  // xhr.open("GET", "http://localhost:3001/highscores");
+  xhr.open("GET", "https://kalle-backend.herokuapp.com/highscores");
   xhr.onload = function(){
     data = JSON.parse(this.response);
     createTable(data);
@@ -413,8 +413,8 @@ function submitHighScore(){
   playerScore = scoreFormObject.elements["score"].value;
   console.log("playerScore=" + playerScore + " currentScore=" + currentScore);
   playerName = scoreFormObject.elements["player_name"].value;
-  let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
-  // let url ="https://kalle-backend.herokuapp.com/registerscore?user=" + playerName + "&score=" + playerScore;
+  // let url ="http://localhost:3001/registerscore?user=" + playerName + "&score=" + playerScore;
+  let url ="https://kalle-backend.herokuapp.com/registerscore?user=" + playerName + "&score=" + playerScore;
   xhr.open("GET", url);
   xhr.send();
 }
